@@ -1,5 +1,6 @@
-import 'package:artools/widgets/entradas.dart';
 import 'package:flutter/material.dart';
+
+import 'package:artools/widgets/entradas.dart';
 
 class VASCO extends StatefulWidget{
   const VASCO({super.key});
@@ -13,6 +14,7 @@ class VASCOState extends State<VASCO>{
     {'txt': 'Potência Nominal - Pn', 'tipo': 'TFF', 'val': TextEditingController(), 'sigla': 'Pn', 'un': 'VA'},
     {'txt': 'Tensão Primário - V1', 'tipo': 'TFF', 'val': TextEditingController(), 'sigla': 'V1', 'un': 'V'},
     {'txt': 'Tensão Secundário - V2', 'tipo': 'TFF', 'val': TextEditingController(), 'sigla': 'V2', 'un': 'V'},
+    {'txt': 'Ensaio à Vazio', 'tipo': 'TXT'},
     {'txt': 'Ensaio a Vazio', 'tipo': 'RLT', 'val': ValueNotifier('Primário'), 'opt': ['Primário', 'Secundário']},
     {'txt': 'Tensão - Vvz', 'tipo': 'TFF', 'val': TextEditingController(), 'sigla': 'Vvz', 'un': 'V'},
     {'txt': 'Corrente - Ivz', 'tipo': 'TFF', 'val': TextEditingController(), 'sigla': 'Ivz', 'un': 'A'},
@@ -32,28 +34,28 @@ class VASCOState extends State<VASCO>{
   Widget build(BuildContext context){
     return Scaffold(
       appBar: AppBar(title: const Text('VASCO'), backgroundColor: Colors.black, foregroundColor: const Color.fromARGB(255, 213, 213, 213)),
-      body: Container(
-        height: MediaQuery.of(context).size.height, width: MediaQuery.of(context).size.width,
-        decoration: const BoxDecoration(image: DecorationImage(image: AssetImage('assets/images/estádios/SãoJanuário.jpeg'), fit: BoxFit.cover)),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(13, 13, 13, 0),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              width: MediaQuery.sizeOf(context).width,
+              decoration: const BoxDecoration(image: DecorationImage(image: AssetImage('assets/images/estádios/SãoJanuário.jpeg'), fit: BoxFit.cover)),
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(13, 13, 13, 13),
                 child: Image.asset('assets/images/escudos/Vasco.png', height: 131, width: 131),
               ),
-              SizedBox(
-                width: 777,
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: entradas.length,
-                  itemBuilder:(context, index) => gerarEntrada(index),
-                ),
+            ),
+            SizedBox(
+              width: 777,
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: entradas.length,
+                itemBuilder:(context, index) => gerarEntrada(index),
               ),
-              const Padding(padding: EdgeInsets.fromLTRB(13, 13, 13, 0)),
-            ],
-          ),
+            ),
+            const Padding(padding: EdgeInsets.fromLTRB(13, 13, 13, 0)),
+          ],
         ),
       ),
     );

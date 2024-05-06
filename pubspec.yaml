@@ -27,6 +27,8 @@ flutter:
     - assets/images/
     - assets/images/escudos/
     - assets/images/estádios/
+    - assets/images/fundos/
+    - assets/images/logos/
 
 # flutter pub run flutter_native_splash:create
 flutter_native_splash:

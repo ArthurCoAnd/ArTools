@@ -30,6 +30,20 @@ Widget simpleTFF(TextEditingController controle, String nome, {String tipoKB = '
   );
 }
 
+Widget completeTFF(TextEditingController controle, String nome, Function func, {String tipoKB = 'text', String sufTxt = ''}){
+  TextInputType tit = TextInputType.text;
+  if(tipoKB == 'num'){tit = TextInputType.number;}
+  else if(tipoKB == 'obs'){tit = TextInputType.multiline;}
+  return TextFormField(
+    controller: controle,
+    onChanged: func(),
+    decoration: InputDecoration(border: const OutlineInputBorder(), labelText: nome, suffixText: sufTxt),
+    keyboardType: tit,
+    maxLines: tipoKB == 'obs' ? null : 1,
+    validator: (value) => value != '' ? null : 'Preencha com um valor!',
+  );
+}
+
 Widget simpleDD(ValueNotifier<String> controle, List<String> controleOpt, String nome){
   return ValueListenableBuilder(
     valueListenable: controle,
@@ -78,12 +92,7 @@ Widget simpleRLT(ValueNotifier<String> controle, List<String> opt, Function func
       ),
     );
   }
-
   List<Widget> radios = [];
-
-  for(int i=0; i<opt.length; i++){
-    radios.add(radioOpt(controle, opt[i]));
-  }
-  
+  for(int i=0; i<opt.length; i++){radios.add(radioOpt(controle, opt[i]));}
   return Row(children: radios);
 }
