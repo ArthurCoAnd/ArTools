@@ -17,6 +17,13 @@
 // BIBLIOTECAS
 import 'package:flutter/material.dart';
 
+Widget simpleP({double p = 13, bool f = false, required Widget child}){
+  return Padding(
+    padding: EdgeInsets.fromLTRB(p, p, p, f ? p : 0),
+    child: child,
+  );
+}
+
 Widget simpleTFF(TextEditingController controle, String nome, {String tipoKB = 'text', String sufTxt = ''}){
   TextInputType tit = TextInputType.text;
   if(tipoKB == 'num'){tit = TextInputType.number;}
@@ -36,7 +43,7 @@ Widget completeTFF(TextEditingController controle, String nome, Function func, {
   else if(tipoKB == 'obs'){tit = TextInputType.multiline;}
   return TextFormField(
     controller: controle,
-    onChanged: func(),
+    onChanged: (value){controle.text = value; func();},
     decoration: InputDecoration(border: const OutlineInputBorder(), labelText: nome, suffixText: sufTxt),
     keyboardType: tit,
     maxLines: tipoKB == 'obs' ? null : 1,

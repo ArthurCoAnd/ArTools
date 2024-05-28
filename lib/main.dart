@@ -110,7 +110,7 @@ class MENUState extends State<MENU>{
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Image.asset('assets/images/${entradas[i]['img']}', height: 131, width: 131),
-                      Text('${entradas[i]['Título']}', style: const TextStyle(fontSize: 50, fontWeight: FontWeight.bold), textAlign: TextAlign.center),
+                      Text('${entradas[i]['Título']}', style: const TextStyle(fontSize: 31, fontWeight: FontWeight.bold), textAlign: TextAlign.center),
                       Text('${entradas[i]['subTítulo']}', style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold), textAlign: TextAlign.center),
                     ]
                   ),
