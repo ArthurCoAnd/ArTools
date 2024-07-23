@@ -65,9 +65,9 @@ class VASCOState extends State<VASCO>{
 
   Widget gerarEntrada(int idx){
     Widget entradaAux = Container();
-    if(entradas[idx]['tipo'] == 'TXT'){entradaAux = Text(entradas[idx]['txt'], textAlign: TextAlign.center, style: const TextStyle(fontSize: 31));}
-    else if(entradas[idx]['tipo'] == 'TFF'){entradaAux = simpleTFF(entradas[idx]['val'], entradas[idx]['txt'], sufTxt: entradas[idx]['un']);}
-    else if(entradas[idx]['tipo'] == 'RLT'){entradaAux = simpleRLT(entradas[idx]['val'], entradas[idx]['opt'], fakeSetState);}
+    // if(entradas[idx]['tipo'] == 'TXT'){entradaAux = Text(entradas[idx]['txt'], textAlign: TextAlign.center, style: const TextStyle(fontSize: 31));}
+    // else if(entradas[idx]['tipo'] == 'TFF'){entradaAux = simpleTFF(entradas[idx]['val'], entradas[idx]['txt'], sufTxt: entradas[idx]['un']);}
+    // else if(entradas[idx]['tipo'] == 'RLT'){entradaAux = simpleRLT(entradas[idx]['val'], entradas[idx]['opt'], fakeSetState);}
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(13, 13, 13, 0),
