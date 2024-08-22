@@ -1,5 +1,32 @@
-// BIBLIOTECAS
+// PACKAGES
 import 'package:flutter/material.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
+
+// ██    ██  █████  ██      ██ ██████   █████  ██████   ██████  ██████  ███████ ███████ 
+// ██    ██ ██   ██ ██      ██ ██   ██ ██   ██ ██   ██ ██    ██ ██   ██ ██      ██      
+// ██    ██ ███████ ██      ██ ██   ██ ███████ ██   ██ ██    ██ ██████  █████   ███████ 
+//  ██  ██  ██   ██ ██      ██ ██   ██ ██   ██ ██   ██ ██    ██ ██   ██ ██           ██ 
+//   ████   ██   ██ ███████ ██ ██████  ██   ██ ██████   ██████  ██   ██ ███████ ███████ 
+
+String? isTxt(String? txt){
+  if(txt != ''){
+    return null;
+  }else{return 'Preencha com um valor!';}
+}
+
+String? isInt(String? txt){
+  try{
+    int.parse(txt!.replaceAll(',','.'));
+    return null;
+  }catch(_){return 'Preencha com um valor numérico inteiro válido!';}
+}
+
+String? isDouble(String? txt){
+  try{
+    double.parse(txt!.replaceAll(',','.'));
+    return null;
+  }catch(_){return 'Preencha com um valor numérico válido!';}
+}
 
 // ██████  ██████   ██████  ██████  ██████   ██████  ██     ██ ███    ██ 
 // ██   ██ ██   ██ ██    ██ ██   ██ ██   ██ ██    ██ ██     ██ ████   ██ 
@@ -8,12 +35,13 @@ import 'package:flutter/material.dart';
 // ██████  ██   ██  ██████  ██      ██████   ██████   ███ ███  ██   ████ 
 
 class SimpleDD extends StatefulWidget{
-  const SimpleDD(this.ctrl, this.opt, this.nome, {super.key, this.func});
+  const SimpleDD(this.ctrl, this.opt, this.nome, {super.key, this.func, this.txt});
 
   final ValueNotifier<String> ctrl;
   final List<String> opt;
   final String nome;
   final Function? func;
+  final List<String>? txt;
 
   @override
   SimpleDDState createState() => SimpleDDState();
@@ -27,11 +55,14 @@ class SimpleDDState extends State<SimpleDD>{
       builder: (BuildContext context, String val, _) {
         return DropdownButtonFormField<String>(
           itemHeight: null,
+          isExpanded: true,
           value: (val.isEmpty) ? null: val,
           decoration: InputDecoration(border: const OutlineInputBorder(), labelText: widget.nome),
           validator: (value) => value != null ? null : 'Escolha um valor!',
-          onChanged: (escolha){setState((){widget.ctrl.value = escolha.toString();}); widget.func!();},
-          items: widget.opt.map((opt) => DropdownMenuItem(value: opt, child: Text(opt))).toList(),
+          onChanged: (escolha){setState((){widget.ctrl.value = escolha.toString();}); if(widget.func != null){widget.func!();}},
+          items: widget.txt == null
+            ? widget.opt.map((opt) => DropdownMenuItem(value: opt, child: Text(opt))).toList()
+            : widget.opt.map((opt) => DropdownMenuItem(value: opt, child: Text(widget.txt!.elementAt(widget.opt.indexOf(opt))))).toList(),
         );
       }
     );
@@ -103,8 +134,6 @@ class SimpleRLTState extends State<SimpleRLT>{
   }
 }
 
-// ValueNotifier<String> controle, List<String> opt, Function func
-
 // ███████ ██     ██ ██ ████████  ██████ ██   ██ 
 // ██      ██     ██ ██    ██    ██      ██   ██ 
 // ███████ ██  █  ██ ██    ██    ██      ███████ 
@@ -130,7 +159,7 @@ class SimpleSState extends State<SimpleS>{
       activeTrackColor: Colors.green.shade200,
       inactiveThumbColor: Colors.grey,
       inactiveTrackColor: Colors.grey.shade300,
-      onChanged: (bool v){setState((){widget.val.value = v;}); widget.func!();},
+      onChanged: (bool v){setState((){widget.val.value = v;}); if(widget.func != null){widget.func!();}},
     );
   }
 }
@@ -142,20 +171,17 @@ class SimpleSState extends State<SimpleS>{
 //    ██    ███████ ██   ██    ██          ██       ██████  ██   ██ ██      ██       ██      ██ ███████ ███████ ██████  
 
 class SimpleTFF extends StatefulWidget{
-  const SimpleTFF(this.ctrl, this.nome, {super.key,
-    this.enable = true,
-    this.kb = 'txt',
-    this.senha = false,
-    this.sufTxt = '',
-  });
+  const SimpleTFF(this.ctrl, this.nome, {super.key, this.kb = 'txt', this.enable = true, this.senha = false, this.func, this.validador = isTxt, this.focusNode});
 
   final TextEditingController ctrl;
   final String nome;
 
-  final bool enable;
   final String kb;
+  final bool enable;
   final bool senha;
-  final String sufTxt;
+  final Function? func;
+  final String? Function(String?) validador;
+  final FocusNode? focusNode;
 
   @override
   SimpleTFFState createState() => SimpleTFFState();
@@ -170,103 +196,61 @@ class SimpleTFFState extends State<SimpleTFF>{
     
     return TextFormField(
       controller: widget.ctrl,
-      decoration: InputDecoration(
-        border: const OutlineInputBorder(),
-        labelText: widget.nome,
-        suffixText: widget.sufTxt,
-      ),
+      onChanged: (value) {if(widget.func != null){widget.func!();}},
+      decoration: InputDecoration(border: const OutlineInputBorder(), labelText: widget.nome),
+      focusNode: widget.focusNode,
       keyboardType: tit,
       enabled: widget.enable,
       obscureText: widget.senha,
       maxLines: widget.kb == 'obs' ? null : 1,
-      validator: (value) => (value != '' || widget.kb == 'obs') ? null : 'Preencha com um valor!',
+      validator: (value) => widget.validador(value),
     );
   }
 }
 
-// Widget simpleP({double p = 13, bool f = false, required Widget child}){
-//   return Padding(
-//     padding: EdgeInsets.fromLTRB(p, p, p, f ? p : 0),
-//     child: child,
-//   );
-// }
+// ████████ ██    ██ ██████  ███████        █████  ██   ██ ███████  █████  ██████  
+//    ██     ██  ██  ██   ██ ██            ██   ██ ██   ██ ██      ██   ██ ██   ██ 
+//    ██      ████   ██████  █████   █████ ███████ ███████ █████   ███████ ██   ██ 
+//    ██       ██    ██      ██            ██   ██ ██   ██ ██      ██   ██ ██   ██ 
+//    ██       ██    ██      ███████       ██   ██ ██   ██ ███████ ██   ██ ██████  
 
-// Widget simpleTFF(TextEditingController controle, String nome, {String tipoKB = 'text', String sufTxt = ''}){
-//   TextInputType tit = TextInputType.text;
-//   if(tipoKB == 'num'){tit = TextInputType.number;}
-//   else if(tipoKB == 'obs'){tit = TextInputType.multiline;}
-//   return TextFormField(
-//     controller: controle,
-//     decoration: InputDecoration(border: const OutlineInputBorder(), labelText: nome, suffixText: sufTxt),
-//     keyboardType: tit,
-//     maxLines: tipoKB == 'obs' ? null : 1,
-//     validator: (value) => value != '' ? null : 'Preencha com um valor!',
-//   );
-// }
+class SimpleTA extends StatefulWidget{
+  const SimpleTA(this.ctrl, this.opt, this.nome, {super.key, this.kb = 'txt', this.enable = true, this.func, this.validador = isTxt, this.focusNode});
 
-// Widget completeTFF(TextEditingController controle, String nome, Function func, {String tipoKB = 'text', String sufTxt = ''}){
-//   TextInputType tit = TextInputType.text;
-//   if(tipoKB == 'num'){tit = TextInputType.number;}
-//   else if(tipoKB == 'obs'){tit = TextInputType.multiline;}
-//   return TextFormField(
-//     controller: controle,
-//     onChanged: (value){controle.text = value; func();},
-//     decoration: InputDecoration(border: const OutlineInputBorder(), labelText: nome, suffixText: sufTxt),
-//     keyboardType: tit,
-//     maxLines: tipoKB == 'obs' ? null : 1,
-//     validator: (value) => value != '' ? null : 'Preencha com um valor!',
-//   );
-// }
+  final TextEditingController ctrl;
+  final String nome;
+  final List<String> opt;
 
-// Widget simpleDD(ValueNotifier<String> controle, List<String> controleOpt, String nome){
-//   return ValueListenableBuilder(
-//     valueListenable: controle,
-//     builder: (BuildContext context, String val, _) {
-//       return DropdownButtonFormField<String>(
-//         itemHeight: null,
-//         value: (val.isEmpty) ? null: val,
-//         decoration: InputDecoration(border: const OutlineInputBorder(), labelText: nome),
-//         validator: (value) => value != null ? null : 'Escolha um valor!',
-//         onChanged: (escolha) => controle.value = escolha.toString(),
-//         items: controleOpt.map((opt) => DropdownMenuItem(
-//           value: opt,
-//           child: Text(opt),
-//         )).toList(),
-//       );
-//     }
-//   );
-// }
+  final String kb;
+  final bool enable;
+  final Function? func;
+  final String? Function(String?) validador;
+  final FocusNode? focusNode;
 
-// Widget completeDD(ValueNotifier<String> controle, List<String> controleOpt, String nome, Function func){
-//   return ValueListenableBuilder(
-//     valueListenable: controle,
-//     builder: (BuildContext context, String val, _) {
-//       return DropdownButtonFormField<String>(
-//         itemHeight: null,
-//         value: (val.isEmpty) ? null: val,
-//         decoration: InputDecoration(border: const OutlineInputBorder(), labelText: nome),
-//         onChanged: (escolha){controle.value = escolha.toString(); func();},
-//         items: controleOpt.map((opt) => DropdownMenuItem(
-//           value: opt,
-//           child: Text(opt),
-//         )).toList(),
-//       );
-//     }
-//   );
-// }
+  @override
+  SimpleTAState createState() => SimpleTAState();
+}
 
-// Widget simpleRLT(ValueNotifier<String> controle, List<String> opt, Function func){
-//   Widget radioOpt(ValueNotifier<String> ctrl, String nome){
-//     return Expanded(
-//       child: RadioListTile(
-//         title: Text(nome),
-//         value: nome,
-//         groupValue: ctrl.value,
-//         onChanged: (val){controle.value = val!; func();},
-//       ),
-//     );
-//   }
-//   List<Widget> radios = [];
-//   for(int i=0; i<opt.length; i++){radios.add(radioOpt(controle, opt[i]));}
-//   return Row(children: radios);
-// }
+class SimpleTAState extends State<SimpleTA>{
+  @override
+  Widget build(BuildContext context){
+    return TypeAheadField(
+      controller: widget.ctrl,
+      itemBuilder: (context, opt) => ListTile(title: Text(opt)),
+      onSelected: (String escolha){setState((){widget.ctrl.text = escolha;}); if(widget.func != null){widget.func!();}},
+      suggestionsCallback: (procura){
+        if(procura != ''){return widget.opt.where((e) => e.toLowerCase().contains(procura.toLowerCase())).toList();}
+        return null;
+      },
+      builder: (context, controller, focusNode) => SimpleTFF(
+        controller,
+        widget.nome,
+        kb: widget.kb,
+        enable: widget.enable,
+        func: widget.func,
+        validador: widget.validador,
+        focusNode: focusNode,
+      ),
+    );
+  }
+}

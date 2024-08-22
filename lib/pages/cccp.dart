@@ -32,7 +32,7 @@ class CCCPState extends State<CCCP>{
   @override
   Widget build(BuildContext context){
     return Scaffold(
-      appBar: AppBar(title: const Text('CCCP'), centerTitle: true, backgroundColor: Colors.black, foregroundColor: const Color.fromARGB(255, 213, 213, 213)),
+      appBar: AppBar(title: const Text('CCCP'), centerTitle: true, backgroundColor: Colors.red.shade900, foregroundColor: const Color.fromARGB(255, 213, 213, 213)),
       body: SingleChildScrollView(
         child: Center(
           child: SizedBox(
@@ -42,17 +42,17 @@ class CCCPState extends State<CCCP>{
               shrinkWrap: true,
               children: [
                 SimpleP(child: Image.asset('assets/images/logos/CCCP.png', height: 131, width: 131)),
-                const SimpleP(child: Center(child: Text('Conversor de Coordenadas Cartesianas/Polares', style: TextStyle(fontSize: 13)))),
-                SimpleP(child: SimpleDD(tipoEnt, tipoEntOpt, 'Entrada', func: altTipoEnt)),
+                const SimpleP(child: Center(child: Text('Conversor de Coordenadas Cartesianas & Polares', style: TextStyle(fontSize: 13)))),
+                SimpleP(child: SimpleRLT(tipoEnt, tipoEntOpt, func: altTipoEnt)),
                 // Entrada Cartesiana
                 if(tipoEnt.value == 'Cartesiano') const SimpleP(child: Text('Cartesiano', textAlign: TextAlign.center, style: TextStyle(fontSize: 31))),
-                if(tipoEnt.value == 'Cartesiano') SimpleP(child: SimpleTFF(x, 'X')),
-                if(tipoEnt.value == 'Cartesiano') SimpleP(child: SimpleTFF(y, 'Y')),
+                if(tipoEnt.value == 'Cartesiano') SimpleP(child: SimpleTFF(x, 'X', validador: isDouble)),
+                if(tipoEnt.value == 'Cartesiano') SimpleP(child: SimpleTFF(y, 'Y', validador: isDouble)),
                 // Entrada Polar
                 if(tipoEnt.value == 'Polar') const SimpleP(child: Text('Polar', textAlign: TextAlign.center, style: TextStyle(fontSize: 31))),
                 if(tipoEnt.value == 'Polar') SimpleP(child: SimpleTFF(mod, 'Módulo')),
                 if(tipoEnt.value == 'Polar') SimpleP(child: SimpleRLT(tipoAng, const ['Grau', 'Radiano'], func: altTipoAng)),
-                if(tipoEnt.value == 'Polar') SimpleP(child: SimpleTFF(ang, 'Ângulo', sufTxt: tipoAng.value == 'Grau' ? '°' : 'rad')),
+                if(tipoEnt.value == 'Polar') SimpleP(child: SimpleTFF(ang, 'Ângulo')),
                 // Calcular
                 SimpleP(child: ElevatedButton.icon(
                   onPressed: (){if(formKey.currentState!.validate()){calcular();}},

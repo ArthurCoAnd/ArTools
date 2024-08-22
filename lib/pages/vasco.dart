@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'package:artools/widgets/entradas.dart';
+// import 'package:artools/widgets/entradas.dart';
 
 class VASCO extends StatefulWidget{
   const VASCO({super.key});

@@ -9,16 +9,32 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
 
   cupertino_icons: ^1.0.6
+  csv: ^6.0.0
   flutter_launcher_icons: ^0.13.1
   flutter_native_splash: ^2.3.5
+  flutter_typeahead: ^5.2.0
+  google_fonts: ^6.2.1
+  syncfusion_flutter_charts: ^26.1.42
+  syncfusion_flutter_datagrid: ^26.1.42
+  syncfusion_flutter_datepicker: ^26.1.42
+  syncfusion_flutter_gauges: ^26.2.4
+  syncfusion_flutter_pdf: ^26.1.42
+  syncfusion_flutter_signaturepad: ^26.1.42
+  syncfusion_localizations: ^26.2.10
+
+  list_picker: ^1.2.0
+  pdf: ^3.11.1
+  printing: ^5.13.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  flutter_lints: ^3.0.0
+  flutter_lints: ^4.0.0
 
 flutter:
   uses-material-design: true

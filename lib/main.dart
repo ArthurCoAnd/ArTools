@@ -1,16 +1,25 @@
+//  █████╗ ██████╗ ████████╗ ██████╗  ██████╗ ██╗     ███████╗
+// ██╔══██╗██╔══██╗╚══██╔══╝██╔═══██╗██╔═══██╗██║     ██╔════╝
+// ███████║██████╔╝   ██║   ██║   ██║██║   ██║██║     ███████╗
+// ██╔══██║██╔══██╗   ██║   ██║   ██║██║   ██║██║     ╚════██║
+// ██║  ██║██║  ██║   ██║   ╚██████╔╝╚██████╔╝███████╗███████║
+// ╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝    ╚═════╝  ╚═════╝ ╚══════╝╚══════╝
+
+// PACKAGES
 import 'dart:ui';
-import 'package:artools/widgets/entradas.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:syncfusion_localizations/syncfusion_localizations.dart';
 
-// import 'package:artools/pages/america.dart';
+// PAGES
 import 'package:artools/pages/cccp.dart';
-// import 'package:artools/pages/cbf.dart';
-// import 'package:artools/pages/inter.dart';
-// import 'package:artools/pages/vasco.dart';
+import 'package:artools/pages/egs.dart';
 
-void main() {
-  runApp(const ArTools());
-}
+// WIDGETS
+import 'package:artools/widgets/entradas.dart';
+
+void main(){runApp(const ArTools());}
 
 class ArTools extends StatelessWidget {
   const ArTools({super.key});
@@ -19,13 +28,25 @@ class ArTools extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final String? fonte = GoogleFonts.ubuntu().fontFamily;
+
     return MaterialApp(
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        SfGlobalLocalizations.delegate
+      ],
+      supportedLocales: const [Locale('pt','BR')],
+      locale: const Locale('pt','BR'),
       title: 'ArTools',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(useMaterial3: false, primarySwatch: Colors.green),
+      theme: ThemeData(useMaterial3: false, primarySwatch: Colors.green, fontFamily: fonte),
+      // theme: ThemeData(useMaterial3: true, colorScheme: ColorScheme.fromSeed(seedColor: Colors.green), fontFamily: fonte),
       routes: {
         '/': (context) => MENU(versao: versao),
         '/CCCP': (context) => const CCCP(),
+        '/EGS': (context) => const EGS(),
       },
     );
   }
@@ -50,11 +71,8 @@ class MENUState extends State<MENU>{
   late String _versao;
 
   List<Map> entradas = [
-    // {'Título': 'AMÉRICA', 'subTítulo': 'América Futebol Clube', 'cor': Colors.green, 'img': 'escudos/América.png', 'pg': const AMERICA()},
-    {'Título': 'CCCP', 'subTítulo': 'Conversor de Coordenadas\nCartesianas/Polares', 'cor': Colors.blue, 'img': 'logos/CCCP.png', 'pg': '/CCCP'},
-    // {'Título': 'Estados Brasileiros', 'subTítulo': '', 'cor': Colors.yellow, 'img': 'logos/MapaBrasil.png', 'pg': const CBF()},
-    // {'Título': 'INTER', 'subTítulo': 'INterative Transistor calculatER', 'cor': Colors.red, 'img': 'escudos/Inter.png', 'pg': const INTER()},
-    // {'Título': 'VASCO', 'subTítulo': 'VAriable tranSformer CalculatOr', 'cor': Colors.white, 'img': 'escudos/Vasco.png', 'pg': const VASCO()},
+    {'Título': 'CCCP', 'subTítulo': 'Conversor de Coordenadas\nCartesianas & Polares', 'cor': Colors.red, 'img': 'logos/CCCP.png', 'pg': '/CCCP'},
+    {'Título': 'EGS', 'subTítulo': 'Estimador de Geração Solar', 'cor': Colors.yellow, 'img': 'logos/EGS.png', 'pg': '/EGS'},
   ];
 
   @override
@@ -96,7 +114,6 @@ class MENUState extends State<MENU>{
           height: 313, width: 313,
           child: InkWell(
             onTap: (){Navigator.pushNamed(context, entradas[i]['pg']);},
-            // onTap: (){Navigator.push(context, MaterialPageRoute(builder: (context) => entradas[i]['pg']));},
             child: ClipRRect(
               borderRadius: const BorderRadius.all(Radius.circular(131)),
               child: BackdropFilter(
