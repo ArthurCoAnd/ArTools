@@ -42,6 +42,7 @@ class ArTools extends StatelessWidget {
       title: 'ArTools',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(useMaterial3: false, primarySwatch: Colors.green, fontFamily: fonte),
+      // theme: ThemeData(useMaterial3: false, primarySwatch: Colors.green, fontFamily: fonte),
       // theme: ThemeData(useMaterial3: true, colorScheme: ColorScheme.fromSeed(seedColor: Colors.green), fontFamily: fonte),
       routes: {
         '/': (context) => MENU(versao: versao),

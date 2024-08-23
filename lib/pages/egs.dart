@@ -109,8 +109,9 @@ class _EGSState extends State<EGS> {
     irradSeries = [];
     if(formKey.currentState!.validate()){
       double pot = double.parse(potencia.text.replaceAll(',','.'));
-      double med = 30*pot*num.parse(irradDados['${estado.text}-${municipio.text}']['Ano'])*0.8/1000;
-      irradSeries.add(serieColunaMesVal('Geração', Colors.yellow, [for(var m in irradMunDados.keys) MesVal(m, 30*pot*irradMunDados[m]*0.8/1000)]));
+      double fat = 30*pot*0.8/1000;
+      double med = fat*num.parse(irradDados['${estado.text}-${municipio.text}']['Ano']);
+      irradSeries.add(serieColunaMesVal('Geração', Colors.yellow, [for(var m in irradMunDados.keys) MesVal(m, fat*irradMunDados[m])]));
       irradSeries.add(serieLinhaMesVal('Média', Colors.blue, [for(var m in irradMunDados.keys) MesVal(m, med)]));
     }
     setState((){});

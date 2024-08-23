@@ -33,47 +33,58 @@ class CCCPState extends State<CCCP>{
   Widget build(BuildContext context){
     return Scaffold(
       appBar: AppBar(title: const Text('CCCP'), centerTitle: true, backgroundColor: Colors.red.shade900, foregroundColor: const Color.fromARGB(255, 213, 213, 213)),
-      body: SingleChildScrollView(
-        child: Center(
-          child: SizedBox(
-            width: 500,
-            child: Form(key: formKey, child: ListView(
-              physics: const ScrollPhysics(),
-              shrinkWrap: true,
-              children: [
-                SimpleP(child: Image.asset('assets/images/logos/CCCP.png', height: 131, width: 131)),
-                const SimpleP(child: Center(child: Text('Conversor de Coordenadas Cartesianas & Polares', style: TextStyle(fontSize: 13)))),
-                SimpleP(child: SimpleRLT(tipoEnt, tipoEntOpt, func: altTipoEnt)),
-                // Entrada Cartesiana
-                if(tipoEnt.value == 'Cartesiano') const SimpleP(child: Text('Cartesiano', textAlign: TextAlign.center, style: TextStyle(fontSize: 31))),
-                if(tipoEnt.value == 'Cartesiano') SimpleP(child: SimpleTFF(x, 'X', validador: isDouble)),
-                if(tipoEnt.value == 'Cartesiano') SimpleP(child: SimpleTFF(y, 'Y', validador: isDouble)),
-                // Entrada Polar
-                if(tipoEnt.value == 'Polar') const SimpleP(child: Text('Polar', textAlign: TextAlign.center, style: TextStyle(fontSize: 31))),
-                if(tipoEnt.value == 'Polar') SimpleP(child: SimpleTFF(mod, 'Módulo')),
-                if(tipoEnt.value == 'Polar') SimpleP(child: SimpleRLT(tipoAng, const ['Grau', 'Radiano'], func: altTipoAng)),
-                if(tipoEnt.value == 'Polar') SimpleP(child: SimpleTFF(ang, 'Ângulo')),
-                // Calcular
-                SimpleP(child: ElevatedButton.icon(
-                  onPressed: (){if(formKey.currentState!.validate()){calcular();}},
-                  style: ElevatedButton.styleFrom(minimumSize: const Size(0, 50), backgroundColor: calculado ? Colors.green : Colors.grey),
-                  icon: const Icon(Icons.calculate),
-                  label: const Text('Calcular', style: TextStyle(fontSize: 20)),
-                )),
-                // Saída Cartesiana
-                if(tipoEnt.value == 'Cartesiano') const SimpleP(child: Text('Polar', textAlign: TextAlign.center, style: TextStyle(fontSize: 31))),
-                if(tipoEnt.value == 'Cartesiano') SimpleP(child: SelectableText('Módulo: $rM', textAlign: TextAlign.left, style: const TextStyle(fontSize: 20))),
-                if(tipoEnt.value == 'Cartesiano') SimpleP(child: SelectableText('Grau: $rG', textAlign: TextAlign.left, style: const TextStyle(fontSize: 20))),
-                if(tipoEnt.value == 'Cartesiano') SimpleP(child: SelectableText('Radiano: $rR', textAlign: TextAlign.left, style: const TextStyle(fontSize: 20))),
-                // Saída Polar
-                if(tipoEnt.value == 'Polar') const SimpleP(child: Text('Cartesiano', textAlign: TextAlign.center, style: TextStyle(fontSize: 31))),
-                if(tipoEnt.value == 'Polar') SimpleP(child: SelectableText('X: $rX', textAlign: TextAlign.left, style: const TextStyle(fontSize: 20))),
-                if(tipoEnt.value == 'Polar') SimpleP(child: SelectableText('Y: $rY', textAlign: TextAlign.left, style: const TextStyle(fontSize: 20))),
-                const SimpleP(),
-              ]
+      body: Stack(
+        alignment: Alignment.center,
+        children: [
+          Image.asset('assets/images/fundos/RedFlagBerlim.gif', fit: BoxFit.cover, height: double.infinity, width: double.infinity),
+          SimpleP(
+            child: SizedBox(
+              width: 500,
+              child: Card(
+                color: Colors.white.withAlpha(213),
+                // decoration: BoxDecoration(color: Colors.white.withAlpha(213)),
+                child: SingleChildScrollView(
+                  child: Form(key: formKey, child: ListView(
+                    physics: const ScrollPhysics(),
+                    shrinkWrap: true,
+                    children: [
+                      SimpleP(child: Image.asset('assets/images/logos/CCCP.png', height: 131, width: 131)),
+                      const SimpleP(child: Center(child: Text('Conversor de Coordenadas Cartesianas & Polares', style: TextStyle(fontSize: 13)))),
+                      SimpleP(child: SimpleRLT(tipoEnt, tipoEntOpt, func: altTipoEnt)),
+                      // Entrada Cartesiana
+                      if(tipoEnt.value == 'Cartesiano') const SimpleP(child: Text('Cartesiano', textAlign: TextAlign.center, style: TextStyle(fontSize: 31))),
+                      if(tipoEnt.value == 'Cartesiano') SimpleP(child: SimpleTFF(x, 'X', validador: isDouble)),
+                      if(tipoEnt.value == 'Cartesiano') SimpleP(child: SimpleTFF(y, 'Y', validador: isDouble)),
+                      // Entrada Polar
+                      if(tipoEnt.value == 'Polar') const SimpleP(child: Text('Polar', textAlign: TextAlign.center, style: TextStyle(fontSize: 31))),
+                      if(tipoEnt.value == 'Polar') SimpleP(child: SimpleTFF(mod, 'Módulo')),
+                      if(tipoEnt.value == 'Polar') SimpleP(child: SimpleRLT(tipoAng, const ['Grau', 'Radiano'], func: altTipoAng)),
+                      if(tipoEnt.value == 'Polar') SimpleP(child: SimpleTFF(ang, 'Ângulo')),
+                      // Calcular
+                      SimpleP(child: ElevatedButton.icon(
+                        onPressed: (){if(formKey.currentState!.validate()){calcular();}},
+                        style: ElevatedButton.styleFrom(minimumSize: const Size(0, 50), backgroundColor: Colors.red.shade900),
+                        icon: const Icon(Icons.calculate),
+                        label: const Text('Calcular', style: TextStyle(fontSize: 20)),
+                      )),
+                      // Saída Cartesiana
+                      if(tipoEnt.value == 'Cartesiano') const SimpleP(child: Text('Polar', textAlign: TextAlign.center, style: TextStyle(fontSize: 31))),
+                      if(tipoEnt.value == 'Cartesiano') SimpleP(child: SelectableText('Módulo: $rM', textAlign: TextAlign.left, style: const TextStyle(fontSize: 20))),
+                      if(tipoEnt.value == 'Cartesiano') SimpleP(child: SelectableText('Grau: $rG', textAlign: TextAlign.left, style: const TextStyle(fontSize: 20))),
+                      if(tipoEnt.value == 'Cartesiano') SimpleP(child: SelectableText('Radiano: $rR', textAlign: TextAlign.left, style: const TextStyle(fontSize: 20))),
+                      // Saída Polar
+                      if(tipoEnt.value == 'Polar') const SimpleP(child: Text('Cartesiano', textAlign: TextAlign.center, style: TextStyle(fontSize: 31))),
+                      if(tipoEnt.value == 'Polar') SimpleP(child: SelectableText('X: $rX', textAlign: TextAlign.left, style: const TextStyle(fontSize: 20))),
+                      if(tipoEnt.value == 'Polar') SimpleP(child: SelectableText('Y: $rY', textAlign: TextAlign.left, style: const TextStyle(fontSize: 20))),
+                      const SimpleP(),
+                    ]
+                  ),
+                                  ),
+                ),
+              ),
             ),
-          )),
-        ),
+          ),
+        ],
       ),
     );
   }
