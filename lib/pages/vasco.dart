@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-// import 'package:artools/widgets/entradas.dart';
+
+// WIDGETS
+import 'package:artools/widgets/entradas.dart';
 
 class VASCO extends StatefulWidget{
   const VASCO({super.key});
@@ -26,34 +28,55 @@ class VASCOState extends State<VASCO>{
     {'txt': 'Potência de Operção - Pop', 'tipo': 'TFF', 'val': TextEditingController(), 'sigla': 'Pop', 'un': 'W'},
     {'txt': 'Tensão de Operção - Vop', 'tipo': 'TFF', 'val': TextEditingController(), 'sigla': 'Vop', 'un': 'V'},
     {'txt': 'Potência Base - Pb', 'tipo': 'TFF', 'val': TextEditingController(), 'sigla': 'Pb', 'un': 'W'},
-    {'txt': 'Tensão Secundária Base - V2b', 'tipo': 'TFF', 'val': TextEditingController(), 'sigla': 'V2b', 'un': 'V'},
+    {'txt': 'Tensão Secundário Base - V2b', 'tipo': 'TFF', 'val': TextEditingController(), 'sigla': 'V2b', 'un': 'V'},
   ];
 
   @override
   Widget build(BuildContext context){
-    return Scaffold(
-      appBar: AppBar(title: const Text('VASCO'), backgroundColor: Colors.black, foregroundColor: const Color.fromARGB(255, 213, 213, 213)),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+    return Theme(
+      data: ThemeData(
+        useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.grey,
+          primary: Colors.red,
+          surface: Colors.grey,
+        ),
+      ),
+      child: Scaffold(
+        appBar: AppBar(title: const Text('VASCO'), centerTitle: true),
+        body: Stack(
+          alignment: Alignment.center,
           children: [
-            Container(
-              width: MediaQuery.sizeOf(context).width,
-              decoration: const BoxDecoration(image: DecorationImage(image: AssetImage('assets/images/estádios/SãoJanuário.jpeg'), fit: BoxFit.cover)),
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(13, 13, 13, 13),
-                child: Image.asset('assets/images/escudos/Vasco.png', height: 131, width: 131),
+            Image.asset('assets/images/estádios/SãoJanuário.jpeg', fit: BoxFit.cover, height: double.infinity, width: double.infinity),
+            SimpleP(
+              p: const[13,13,13,13],
+              child: Card(
+                color: Colors.white.withAlpha(213),
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        width: 777,
+                        child: Column(children: [
+                          SimpleP(child: Image.asset('assets/images/escudos/VASCO.png', height: 131, width: 131)),
+                          const SimpleP(child: Center(child: Text('VAriable tranSformer CalculatOr', style: TextStyle(fontSize: 13)))),
+                        ]),
+                      ),
+                      SizedBox(
+                        width: 777,
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: entradas.length,
+                          itemBuilder:(context, index) => gerarEntrada(index),
+                        ),
+                      ),
+                      const Padding(padding: EdgeInsets.fromLTRB(13, 13, 13, 0)),
+                    ],
+                  ),
+                ),
               ),
             ),
-            SizedBox(
-              width: 777,
-              child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: entradas.length,
-                itemBuilder:(context, index) => gerarEntrada(index),
-              ),
-            ),
-            const Padding(padding: EdgeInsets.fromLTRB(13, 13, 13, 0)),
           ],
         ),
       ),
@@ -64,9 +87,9 @@ class VASCOState extends State<VASCO>{
 
   Widget gerarEntrada(int idx){
     Widget entradaAux = Container();
-    // if(entradas[idx]['tipo'] == 'TXT'){entradaAux = Text(entradas[idx]['txt'], textAlign: TextAlign.center, style: const TextStyle(fontSize: 31));}
-    // else if(entradas[idx]['tipo'] == 'TFF'){entradaAux = simpleTFF(entradas[idx]['val'], entradas[idx]['txt'], sufTxt: entradas[idx]['un']);}
-    // else if(entradas[idx]['tipo'] == 'RLT'){entradaAux = simpleRLT(entradas[idx]['val'], entradas[idx]['opt'], fakeSetState);}
+    if(entradas[idx]['tipo'] == 'TXT'){entradaAux = Text(entradas[idx]['txt'], textAlign: TextAlign.center, style: const TextStyle(fontSize: 31));}
+    else if(entradas[idx]['tipo'] == 'TFF'){entradaAux = SimpleTFF(entradas[idx]['val'], entradas[idx]['txt']);}
+    else if(entradas[idx]['tipo'] == 'RLT'){entradaAux = SimpleRLT(entradas[idx]['val'], entradas[idx]['opt'], func: fakeSetState);}
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(13, 13, 13, 0),

@@ -1,5 +1,12 @@
 import 'dart:math';
+import 'package:artools/services/graficos.dart';
 import 'package:flutter/material.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
+
+// SERVICES
+import 'package:artools/services/conversores.dart';
+
+// WIDGETS
 import 'package:artools/widgets/entradas.dart';
 
 class CCCP extends StatefulWidget{
@@ -10,140 +17,196 @@ class CCCP extends StatefulWidget{
 }
 
 class CCCPState extends State<CCCP>{
-  final formKey = GlobalKey<FormState>();
-
-  final ValueNotifier<String> tipoEnt = ValueNotifier('Cartesiano');
-  final List<String> tipoEntOpt = ['Cartesiano', 'Polar'];
+  Coordenada c = Coordenada();
 
   final TextEditingController x = TextEditingController();
   final TextEditingController y = TextEditingController();
   final TextEditingController mod = TextEditingController();
-  final TextEditingController ang = TextEditingController();
-  final ValueNotifier<String> tipoAng = ValueNotifier('Grau');
+  final TextEditingController angG = TextEditingController();
+  final TextEditingController angR = TextEditingController();
 
-  String rX = '-';
-  String rY = '-';
-  String rM = '-';
-  String rG = '-';
-  String rR = '-';
-
-  bool calculado = false;
+  List<CartesianSeries> seriesGrafico = [];
 
   @override
   Widget build(BuildContext context){
-    return Scaffold(
-      appBar: AppBar(title: const Text('CCCP'), centerTitle: true, backgroundColor: Colors.red.shade900, foregroundColor: const Color.fromARGB(255, 213, 213, 213)),
-      body: Stack(
-        alignment: Alignment.center,
-        children: [
-          Image.asset('assets/images/fundos/RedFlagBerlim.gif', fit: BoxFit.cover, height: double.infinity, width: double.infinity),
-          SimpleP(
-            child: SizedBox(
-              width: 500,
+    return Theme(
+      data: ThemeData(
+        useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.red,
+          primary: Colors.red.shade700,
+          surface: Colors.red.shade700,
+        ),
+        fontFamily: 'Konstruktor',
+      ),
+      child: Scaffold(
+        appBar: AppBar(title: const Text('CCCP'), centerTitle: true),
+        body: Stack(
+          alignment: Alignment.center,
+          children: [
+            Image.asset('assets/images/fundos/RedFlagBerlim.gif', fit: BoxFit.cover, height: double.infinity, width: double.infinity),
+            SimpleP(
+              p: const [13,13,13,13],
               child: Card(
-                color: Colors.white.withAlpha(213),
-                // decoration: BoxDecoration(color: Colors.white.withAlpha(213)),
+                color: Colors.white.withAlpha(231),
                 child: SingleChildScrollView(
-                  child: Form(key: formKey, child: ListView(
-                    physics: const ScrollPhysics(),
-                    shrinkWrap: true,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
                     children: [
-                      SimpleP(child: Image.asset('assets/images/logos/CCCP.png', height: 131, width: 131)),
-                      const SimpleP(child: Center(child: Text('Conversor de Coordenadas Cartesianas & Polares', style: TextStyle(fontSize: 13)))),
-                      SimpleP(child: SimpleRLT(tipoEnt, tipoEntOpt, func: altTipoEnt)),
-                      // Entrada Cartesiana
-                      if(tipoEnt.value == 'Cartesiano') const SimpleP(child: Text('Cartesiano', textAlign: TextAlign.center, style: TextStyle(fontSize: 31))),
-                      if(tipoEnt.value == 'Cartesiano') SimpleP(child: SimpleTFF(x, 'X', validador: isDouble)),
-                      if(tipoEnt.value == 'Cartesiano') SimpleP(child: SimpleTFF(y, 'Y', validador: isDouble)),
-                      // Entrada Polar
-                      if(tipoEnt.value == 'Polar') const SimpleP(child: Text('Polar', textAlign: TextAlign.center, style: TextStyle(fontSize: 31))),
-                      if(tipoEnt.value == 'Polar') SimpleP(child: SimpleTFF(mod, 'Módulo')),
-                      if(tipoEnt.value == 'Polar') SimpleP(child: SimpleRLT(tipoAng, const ['Grau', 'Radiano'], func: altTipoAng)),
-                      if(tipoEnt.value == 'Polar') SimpleP(child: SimpleTFF(ang, 'Ângulo')),
-                      // Calcular
-                      SimpleP(child: ElevatedButton.icon(
-                        onPressed: (){if(formKey.currentState!.validate()){calcular();}},
-                        style: ElevatedButton.styleFrom(minimumSize: const Size(0, 50), backgroundColor: Colors.red.shade900),
-                        icon: const Icon(Icons.calculate),
-                        label: const Text('Calcular', style: TextStyle(fontSize: 20)),
-                      )),
-                      // Saída Cartesiana
-                      if(tipoEnt.value == 'Cartesiano') const SimpleP(child: Text('Polar', textAlign: TextAlign.center, style: TextStyle(fontSize: 31))),
-                      if(tipoEnt.value == 'Cartesiano') SimpleP(child: SelectableText('Módulo: $rM', textAlign: TextAlign.left, style: const TextStyle(fontSize: 20))),
-                      if(tipoEnt.value == 'Cartesiano') SimpleP(child: SelectableText('Grau: $rG', textAlign: TextAlign.left, style: const TextStyle(fontSize: 20))),
-                      if(tipoEnt.value == 'Cartesiano') SimpleP(child: SelectableText('Radiano: $rR', textAlign: TextAlign.left, style: const TextStyle(fontSize: 20))),
-                      // Saída Polar
-                      if(tipoEnt.value == 'Polar') const SimpleP(child: Text('Cartesiano', textAlign: TextAlign.center, style: TextStyle(fontSize: 31))),
-                      if(tipoEnt.value == 'Polar') SimpleP(child: SelectableText('X: $rX', textAlign: TextAlign.left, style: const TextStyle(fontSize: 20))),
-                      if(tipoEnt.value == 'Polar') SimpleP(child: SelectableText('Y: $rY', textAlign: TextAlign.left, style: const TextStyle(fontSize: 20))),
-                      const SimpleP(),
-                    ]
+                      SizedBox(
+                        width: 500,
+                        child: Column(children: [
+                          SimpleP(child: Image.asset('assets/images/logos/CCCP.png', height: 131, width: 131)),
+                          const SimpleP(child: Center(child: Text('Conversor de Coordenadas Cartesianas e Polares', style: TextStyle(fontSize: 13)))),
+                        ]),
+                      ),
+                      OverflowBar(
+                        overflowAlignment: OverflowBarAlignment.center,
+                        children: [
+                          SizedBox(
+                            width: 500,
+                            child: Column(children: [
+                              // Entrada Cartesiana
+                              const SimpleP(child: Text('Cartesiano', textAlign: TextAlign.center, style: TextStyle(fontSize: 31))),
+                              SimpleP(child: SimpleTFF(x, 'X', func: altCar)),
+                              SimpleP(child: SimpleTFF(y, 'Y', func: altCar)),
+                              // Entrada Polar
+                              const SimpleP(child: Text('Polar', textAlign: TextAlign.center, style: TextStyle(fontSize: 31))),
+                              SimpleP(child: SimpleTFF(mod, 'Módulo', func: altPol)),
+                              SimpleP(child: SimpleTFF(angG, 'Ângulo Graus', func: altAngG)),
+                              SimpleP(child: SimpleTFF(angR, 'Ângulo Radianos', func: altAngR)),
+                              const SimpleP(),
+                            ]),
+                          ),
+                          SizedBox(
+                            width: 500,
+                            child: Column(children: [
+                              const SimpleP(child: Text('Gráfico', textAlign: TextAlign.center, style: TextStyle(fontSize: 31))),
+                              SimpleP(child: SfCartesianChart(
+                                series: seriesGrafico,
+                                primaryXAxis: const NumericAxis(rangePadding: ChartRangePadding.normal),
+                                primaryYAxis: const NumericAxis(rangePadding: ChartRangePadding.normal),
+                              )),
+                            ]),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
-                                  ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 
-  void altTipoEnt(){setState((){
-    x.text = ''; rX = '-'; y.text = ''; rY = '-';
-    mod.text = ''; rM = '-'; ang.text = ''; rG = '-'; rR = '-'; tipoAng.value = 'Grau';
-  });}
+  void altCar(){
+    c.altX(x.text);
+    c.altY(y.text);
+    c.car2pol();
+    altEntradasPol();
+  }
 
-  void altTipoAng(){setState((){});}
+  void altPol(){
+    c.altMod(mod.text);
+    c.pol2car();
+    altEntradasCar();
+  }
 
-  void calcular(){
-    if(tipoEnt.value == 'Cartesiano'){
-      final Map pol = car2pol({'x': x.text, 'y': y.text});
-      setState((){
-        // mod.text = pol['mod'];
-        // ang.text = tipoAng.value == 'Grau' ? pol['angG'] : pol['angR'];
-        rM = pol['mod'];
-        rG = '${pol['angG']}°';
-        rR = '${pol['angR']} rad';
-      });
-    } else if(tipoEnt.value == 'Polar'){
-      final Map car = pol2car({'mod': mod.text, 'ang': ang.text, 'tipoAng': tipoAng.value});
-      setState(() {
-        // x.text = car['x'];
-        // y.text = car['y'];
-        rX = car['x'];
-        rY = car['y'];
-      });
+  void altAngG(){
+    c.altAngG(angG.text);
+    c.grau2rag();
+    setState(() {
+      angR.text = c.angR?.toString().replaceAll('.',',') ?? '';
+    });
+    altPol();
+  }
+
+  void altAngR(){
+    c.altAngR(angR.text);
+    c.rad2grau();
+    setState(() {
+      angG.text = c.angG?.toString().replaceAll('.',',') ?? '';
+    });
+    altPol();
+  }
+
+  void altEntradasCar(){
+    gerarGrafico();
+    setState(() {
+      x.text = c.x?.toString().replaceAll('.',',') ?? '';
+      y.text = c.y?.toString().replaceAll('.',',') ?? '';
+    });
+  }
+
+  void altEntradasPol(){
+    gerarGrafico();
+    setState(() {
+      mod.text = c.mod?.toString().replaceAll('.',',') ?? '';
+      angG.text = c.angG?.toString().replaceAll('.',',') ?? '';
+      angR.text = c.angR?.toString().replaceAll('.',',') ?? '';
+    });
+  }
+
+  void gerarGrafico(){
+    seriesGrafico = [];
+    if(c.x!.isFinite && c.y!.isFinite){
+      seriesGrafico.add(serieLinhaXY('+X', Colors.black, [XY(0,0),XY(c.mod!,0)]));
+      seriesGrafico.add(serieLinhaXY('+Y', Colors.black, [XY(0,0),XY(0,c.mod!)]));
+      seriesGrafico.add(serieLinhaXY('-X', Colors.black, [XY(0,0),XY(-c.mod!,0)]));
+      seriesGrafico.add(serieLinhaXY('-Y', Colors.black, [XY(0,0),XY(0,-c.mod!)]));
+      
+      seriesGrafico.add(serieLinhaXY('Módulo', Colors.red, [XY(0,0), XY(c.x!,c.y!)]));
     }
-    setState((){});
   }
 }
 
-Map car2pol(Map car){
-  Map pol = {'mod': '-', 'angG': '-', 'angR': '-'};
-  try{
-    final double x = double.parse(car['x'].replaceAll(',','.'));
-    final double y = double.parse(car['y'].replaceAll(',','.'));
-    final double mod = sqrt(x*x+y*y);
-    final double angR = atan(y/x);
-    final double angG = angR*360/(2*pi);
-    pol['mod'] = mod.toStringAsFixed(3).replaceAll('.',',');
-    pol['angG'] = angG.toStringAsFixed(3).replaceAll('.',',');
-    pol['angR'] = angR.toStringAsFixed(3).replaceAll('.',',');
-  }catch(_){}
-  return pol;
-}
+class Coordenada{
+  Coordenada({this.x, this.y, this.mod, this.angG, this.angR});
 
-Map pol2car(Map pol){
-  Map car = {'x': '-', 'y': '-'};
-  try{
-    final double mod = double.parse(pol['mod'].replaceAll(',','.'));
-    double ang = double.parse(pol['ang'].replaceAll(',','.'));
-    if(pol['tipoAng'] == 'Grau'){ang = 2 * pi * ang / 360;}
-    final double x = mod * cos(ang);
-    final double y = mod * sin(ang);
-    car['x'] = x.toStringAsFixed(3).replaceAll('.',',');
-    car['y'] = y.toStringAsFixed(3).replaceAll('.',',');
-  }catch(_){}
-  return car;
+  double? x;
+  double? y;
+  double? mod;
+  double? angG;
+  double? angR;
+
+  void altX(String str){x = str2double(str);}
+  void altY(String str){y = str2double(str);}
+  void altMod(String str){mod = str2double(str);}
+  void altAngG(String str){angG = str2double(str);}
+  void altAngR(String str){angR = str2double(str);}
+
+  void grau2rag(){
+    try{angR = 2 * pi * angG! / 360;}
+    catch(_){angR = null;}
+  }
+
+  void rad2grau(){
+    try{angG = angR! * 360 / (2 * pi);}
+    catch(_){angG = null;}
+  }
+
+  void car2pol(){
+    try{
+      mod = sqrt(x!*x!+y!*y!);
+      angR = asin(y!/mod!);
+      angG = angR!*360/(2*pi);
+    }catch(_){
+      mod = null;
+      angR = null;
+      angG = null;
+    }
+  }
+
+  void pol2car(){
+    try{
+      x = mod! * cos(angR!);
+      y = mod! * sin(angR!);
+    }catch(_){
+      x = null;
+      y = null;
+    }
+  }
 }

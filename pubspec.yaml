@@ -46,6 +46,13 @@ flutter:
     - assets/images/fundos/
     - assets/images/logos/
 
+  fonts:
+    - family: Konstruktor
+      fonts:
+        - asset: assets/fonts/KonstruktorRegular.ttf
+          style: normal
+
+
 # flutter pub run flutter_native_splash:create
 flutter_native_splash:
   color: "#838383"

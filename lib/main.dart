@@ -15,6 +15,7 @@ import 'package:syncfusion_localizations/syncfusion_localizations.dart';
 // PAGES
 import 'package:artools/pages/cccp.dart';
 import 'package:artools/pages/egs.dart';
+import 'package:artools/pages/vasco.dart';
 
 // WIDGETS
 import 'package:artools/widgets/entradas.dart';
@@ -23,31 +24,23 @@ void main(){runApp(const ArTools());}
 
 class ArTools extends StatelessWidget {
   const ArTools({super.key});
-
-  final String versao = '0.13';
-
   @override
   Widget build(BuildContext context) {
 
     final String? fonte = GoogleFonts.ubuntu().fontFamily;
 
     return MaterialApp(
-      localizationsDelegates: const [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        SfGlobalLocalizations.delegate
-      ],
+      localizationsDelegates: const [GlobalMaterialLocalizations.delegate, GlobalWidgetsLocalizations.delegate, SfGlobalLocalizations.delegate],
       supportedLocales: const [Locale('pt','BR')],
       locale: const Locale('pt','BR'),
       title: 'ArTools',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(useMaterial3: false, primarySwatch: Colors.green, fontFamily: fonte),
-      // theme: ThemeData(useMaterial3: false, primarySwatch: Colors.green, fontFamily: fonte),
-      // theme: ThemeData(useMaterial3: true, colorScheme: ColorScheme.fromSeed(seedColor: Colors.green), fontFamily: fonte),
+      theme: ThemeData(useMaterial3: true, colorScheme: ColorScheme.fromSeed(seedColor: Colors.grey), fontFamily: fonte),
       routes: {
-        '/': (context) => MENU(versao: versao),
+        '/': (context) => const MENU(),
         '/CCCP': (context) => const CCCP(),
         '/EGS': (context) => const EGS(),
+        '/VASCO': (context) => const VASCO(),
       },
     );
   }
@@ -60,27 +53,18 @@ class ArTools extends StatelessWidget {
 // ██      ██ ███████ ██   ████  ██████  
 
 class MENU extends StatefulWidget{
-  const MENU({super.key, required this.versao});
-                
-  final String versao;
-    
+  const MENU({super.key});
+
   @override
   MENUState createState() => MENUState();
 }
 
 class MENUState extends State<MENU>{
-  late String _versao;
-
   List<Map> entradas = [
     {'Título': 'CCCP', 'subTítulo': 'Conversor de Coordenadas\nCartesianas & Polares', 'cor': Colors.red, 'img': 'logos/CCCP.png', 'pg': '/CCCP'},
     {'Título': 'EGS', 'subTítulo': 'Estimador de Geração Solar', 'cor': Colors.yellow, 'img': 'logos/EGS.png', 'pg': '/EGS'},
+    // {'Título': 'VASCO', 'subTítulo': 'VAriable tranSformer CalculatOr', 'cor': Colors.white, 'img': 'escudos/Vasco.png', 'pg': '/VASCO'},
   ];
-
-  @override
-  void initState() {
-    _versao = widget.versao;
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context){
@@ -93,7 +77,6 @@ class MENUState extends State<MENU>{
           child: Column(children: [
             SimpleP(child: Image.asset('assets/images/Logo.png', height: 131, width: 131)),
             const SimpleP(child: Center(child: Text('ArTools', style: TextStyle(fontSize: 31)))),
-            SimpleP(child: Center(child: Text('Versão $_versao', style: const TextStyle(fontSize: 13)))),
             GridView.builder(
               shrinkWrap: true,
               itemCount: entradas.length,

@@ -49,30 +49,40 @@ class _EGSState extends State<EGS> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Estimador de Geração Solar'), centerTitle: true, backgroundColor: Colors.yellow.shade700),
-      body: !carregado
-      ? const Center(child: CircularProgressIndicator())
-      : Column(children: [
-        MediaQuery.of(context).size.width > 750
-          ? Row(children: [
-            Expanded(child: SimpleP(child: SimpleTA(estado, estadoOpt, 'Estado', func: altEst))),
-            Expanded(child: SimpleP(child: SimpleTA(municipio, municipioOpt, 'Município', func: altMun, enable: municipioOpt.isNotEmpty))),
-            Expanded(child: Form(key: formKey, child: SimpleP(child: SimpleTFF(potencia, 'Potência (kW)', func: altPot, validador: isDouble)))),
-          ])
-          : Column(children: [
-            SimpleP(child: SimpleTA(estado, estadoOpt, 'Estado', func: altEst)),
-            SimpleP(child: SimpleTA(municipio, municipioOpt, 'Município', func: altMun, enable: municipioOpt.isNotEmpty)),
-            Form(key: formKey, child: SimpleP(child: SimpleTFF(potencia, 'Potência (kW)', func: altPot, validador: isDouble))),
-          ]),
-        if(irradSeries.isNotEmpty) Expanded(child: SimpleP(child: SfCartesianChart(
-          trackballBehavior: TrackballBehavior(enable: true, activationMode: ActivationMode.singleTap),
-          legend: const Legend(title: LegendTitle(text: ''), isVisible: true, position: LegendPosition.top),
-          primaryXAxis: const CategoryAxis(title: AxisTitle(text: 'Mês')),
-          primaryYAxis: const NumericAxis(title: AxisTitle(text: 'Geração'), rangePadding: ChartRangePadding.normal),
-          series: irradSeries,
-        ))),
-      ]),
+    return Theme(
+      data: ThemeData(
+        useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.amber,
+          primary: Colors.amber,
+          surface: Colors.amber,
+        ),
+      ),
+      child: Scaffold(
+        appBar: AppBar(title: const Text('Estimador de Geração Solar'), centerTitle: true, backgroundColor: Colors.amber),
+        body: !carregado
+        ? const Center(child: CircularProgressIndicator())
+        : Column(children: [
+          MediaQuery.of(context).size.width > 750
+            ? Row(children: [
+              Expanded(child: SimpleP(child: SimpleTA(estado, estadoOpt, 'Estado', func: altEst))),
+              Expanded(child: SimpleP(child: SimpleTA(municipio, municipioOpt, 'Município', func: altMun, enable: municipioOpt.isNotEmpty))),
+              Expanded(child: Form(key: formKey, child: SimpleP(child: SimpleTFF(potencia, 'Potência (kW)', func: altPot, validador: isDouble)))),
+            ])
+            : Column(children: [
+              SimpleP(child: SimpleTA(estado, estadoOpt, 'Estado', func: altEst)),
+              SimpleP(child: SimpleTA(municipio, municipioOpt, 'Município', func: altMun, enable: municipioOpt.isNotEmpty)),
+              Form(key: formKey, child: SimpleP(child: SimpleTFF(potencia, 'Potência (kW)', func: altPot, validador: isDouble))),
+            ]),
+          if(irradSeries.isNotEmpty) Expanded(child: SimpleP(child: SfCartesianChart(
+            trackballBehavior: TrackballBehavior(enable: true, activationMode: ActivationMode.singleTap),
+            legend: const Legend(title: LegendTitle(text: ''), isVisible: true, position: LegendPosition.top),
+            primaryXAxis: const CategoryAxis(title: AxisTitle(text: 'Mês')),
+            primaryYAxis: const NumericAxis(title: AxisTitle(text: 'Geração (kWh.mês)'), rangePadding: ChartRangePadding.normal),
+            series: irradSeries,
+          ))),
+        ]),
+      ),
     );
   }
 
@@ -111,7 +121,7 @@ class _EGSState extends State<EGS> {
       double pot = double.parse(potencia.text.replaceAll(',','.'));
       double fat = 30*pot*0.8/1000;
       double med = fat*num.parse(irradDados['${estado.text}-${municipio.text}']['Ano']);
-      irradSeries.add(serieColunaMesVal('Geração', Colors.yellow, [for(var m in irradMunDados.keys) MesVal(m, fat*irradMunDados[m])]));
+      irradSeries.add(serieColunaMesVal('Geração', Colors.amber, [for(var m in irradMunDados.keys) MesVal(m, fat*irradMunDados[m])]));
       irradSeries.add(serieLinhaMesVal('Média', Colors.blue, [for(var m in irradMunDados.keys) MesVal(m, med)]));
     }
     setState((){});
