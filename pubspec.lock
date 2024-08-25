@@ -341,14 +341,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.0"
-  list_picker:
-    dependency: "direct main"
-    description:
-      name: list_picker
-      sha256: "167db6e7d28fcf6954fd3e290e40e03d5f0ce51abc2a9f50b9e82f41042fbde8"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.2.0"
   matcher:
     dependency: transitive
     description:

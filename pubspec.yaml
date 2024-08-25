@@ -26,7 +26,6 @@ dependencies:
   syncfusion_flutter_signaturepad: ^26.1.42
   syncfusion_localizations: ^26.2.10
 
-  list_picker: ^1.2.0
   pdf: ^3.11.1
   printing: ^5.13.2
 

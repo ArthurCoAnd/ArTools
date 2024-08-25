@@ -64,6 +64,7 @@ class MENUState extends State<MENU>{
     {'Título': 'CCCP', 'subTítulo': 'Conversor de Coordenadas\nCartesianas & Polares', 'cor': Colors.red, 'img': 'logos/CCCP.png', 'pg': '/CCCP'},
     {'Título': 'EGS', 'subTítulo': 'Estimador de Geração Solar', 'cor': Colors.yellow, 'img': 'logos/EGS.png', 'pg': '/EGS'},
     // {'Título': 'VASCO', 'subTítulo': 'VAriable tranSformer CalculatOr', 'cor': Colors.white, 'img': 'escudos/Vasco.png', 'pg': '/VASCO'},
+    // {'Título': 'CS', 'subTítulo': 'Counter-Strike', 'cor': const Color.fromARGB(255,117,127,109), 'img': 'logos/CS16.png', 'pg': '/'},
   ];
 
   @override

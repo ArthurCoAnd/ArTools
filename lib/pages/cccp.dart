@@ -27,6 +27,12 @@ class CCCPState extends State<CCCP>{
 
   List<CartesianSeries> seriesGrafico = [];
 
+  // ██       █████  ██    ██  ██████  ██    ██ ████████ 
+  // ██      ██   ██  ██  ██  ██    ██ ██    ██    ██    
+  // ██      ███████   ████   ██    ██ ██    ██    ██    
+  // ██      ██   ██    ██    ██    ██ ██    ██    ██    
+  // ███████ ██   ██    ██     ██████   ██████     ██    
+
   @override
   Widget build(BuildContext context){
     return Theme(
@@ -102,6 +108,12 @@ class CCCPState extends State<CCCP>{
     );
   }
 
+  //  █████  ██      ████████ ███████ ██████   █████  ██████  
+  // ██   ██ ██         ██    ██      ██   ██ ██   ██ ██   ██ 
+  // ███████ ██         ██    █████   ██████  ███████ ██████  
+  // ██   ██ ██         ██    ██      ██   ██ ██   ██ ██   ██ 
+  // ██   ██ ███████    ██    ███████ ██   ██ ██   ██ ██   ██ 
+
   void altCar(){
     c.altX(x.text);
     c.altY(y.text);
@@ -153,15 +165,18 @@ class CCCPState extends State<CCCP>{
   void gerarGrafico(){
     seriesGrafico = [];
     if(c.x!.isFinite && c.y!.isFinite){
-      seriesGrafico.add(serieLinhaXY('+X', Colors.black, [XY(0,0),XY(c.mod!,0)]));
-      seriesGrafico.add(serieLinhaXY('+Y', Colors.black, [XY(0,0),XY(0,c.mod!)]));
-      seriesGrafico.add(serieLinhaXY('-X', Colors.black, [XY(0,0),XY(-c.mod!,0)]));
-      seriesGrafico.add(serieLinhaXY('-Y', Colors.black, [XY(0,0),XY(0,-c.mod!)]));
-      
+      seriesGrafico.add(serieLinhaXY('X', Colors.black, [XY(-c.mod!,0),XY(c.mod!,0)]));
+      seriesGrafico.add(serieLinhaXY('Y', Colors.black, [XY(0,-c.mod!),XY(0,c.mod!)]));
       seriesGrafico.add(serieLinhaXY('Módulo', Colors.red, [XY(0,0), XY(c.x!,c.y!)]));
     }
   }
 }
+
+  //  ██████  ██████   ██████  ██████  ██████  ███████ ███    ██  █████  ██████   █████  ███████ 
+  // ██      ██    ██ ██    ██ ██   ██ ██   ██ ██      ████   ██ ██   ██ ██   ██ ██   ██ ██      
+  // ██      ██    ██ ██    ██ ██████  ██   ██ █████   ██ ██  ██ ███████ ██   ██ ███████ ███████ 
+  // ██      ██    ██ ██    ██ ██   ██ ██   ██ ██      ██  ██ ██ ██   ██ ██   ██ ██   ██      ██ 
+  //  ██████  ██████   ██████  ██   ██ ██████  ███████ ██   ████ ██   ██ ██████  ██   ██ ███████ 
 
 class Coordenada{
   Coordenada({this.x, this.y, this.mod, this.angG, this.angR});
