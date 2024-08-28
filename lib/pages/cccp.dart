@@ -63,7 +63,7 @@ class CCCPState extends State<CCCP>{
                         width: 500,
                         child: Column(children: [
                           SimpleP(child: Image.asset('assets/images/logos/CCCP.png', height: 131, width: 131)),
-                          const SimpleP(child: Center(child: Text('Conversor de Coordenadas Cartesianas e Polares', style: TextStyle(fontSize: 13)))),
+                          const SimpleP(child: Center(child: Text('Conversor de Coordenadas Cartesianas & Polares', style: TextStyle(fontSize: 13)))),
                         ]),
                       ),
                       OverflowBar(
