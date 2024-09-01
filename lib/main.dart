@@ -15,7 +15,7 @@ import 'package:syncfusion_localizations/syncfusion_localizations.dart';
 // PAGES
 import 'package:artools/pages/cccp.dart';
 import 'package:artools/pages/egs.dart';
-import 'package:artools/pages/vasco.dart';
+// import 'package:artools/pages/vasco.dart';
 
 // WIDGETS
 import 'package:artools/widgets/entradas.dart';
@@ -40,7 +40,7 @@ class ArTools extends StatelessWidget {
         '/': (context) => const MENU(),
         '/CCCP': (context) => const CCCP(),
         '/EGS': (context) => const EGS(),
-        '/VASCO': (context) => const VASCO(),
+        // '/VASCO': (context) => const VASCO(),
       },
     );
   }
