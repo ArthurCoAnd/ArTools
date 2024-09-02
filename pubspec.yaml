@@ -39,6 +39,7 @@ flutter:
   uses-material-design: true
 
   assets:
+    - assets/data/
     - assets/images/
     - assets/images/escudos/
     - assets/images/estádios/

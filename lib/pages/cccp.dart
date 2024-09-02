@@ -164,7 +164,7 @@ class CCCPState extends State<CCCP>{
 
   void gerarGrafico(){
     seriesGrafico = [];
-    if(c.x!.isFinite && c.y!.isFinite){
+    if(c.x != null && c.y != null){
       seriesGrafico.add(serieLinhaXY('X', Colors.black, [XY(-c.mod!,0),XY(c.mod!,0)]));
       seriesGrafico.add(serieLinhaXY('Y', Colors.black, [XY(0,-c.mod!),XY(0,c.mod!)]));
       seriesGrafico.add(serieLinhaXY('Módulo', Colors.red, [XY(0,0), XY(c.x!,c.y!)]));

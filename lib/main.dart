@@ -79,6 +79,7 @@ class MENUState extends State<MENU>{
             SimpleP(child: Image.asset('assets/images/Logo.png', height: 131, width: 131)),
             const SimpleP(child: Center(child: Text('ArTools', style: TextStyle(fontSize: 31)))),
             GridView.builder(
+              physics: const ScrollPhysics(),
               shrinkWrap: true,
               itemCount: entradas.length,
               itemBuilder:(context, index) => gerarEntrada(index),
