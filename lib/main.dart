@@ -15,6 +15,7 @@ import 'package:syncfusion_localizations/syncfusion_localizations.dart';
 // PAGES
 import 'package:artools/pages/cccp.dart';
 import 'package:artools/pages/egs.dart';
+import 'package:artools/pages/cs16.dart';
 // import 'package:artools/pages/vasco.dart';
 
 // WIDGETS
@@ -40,6 +41,7 @@ class ArTools extends StatelessWidget {
         '/': (context) => const MENU(),
         '/CCCP': (context) => const CCCP(),
         '/EGS': (context) => const EGS(),
+        '/CS16': (context) => const CS16(),
         // '/VASCO': (context) => const VASCO(),
       },
     );
@@ -64,7 +66,7 @@ class MENUState extends State<MENU>{
     {'Título': 'CCCP', 'subTítulo': 'Conversor de Coordenadas\nCartesianas & Polares', 'cor': Colors.red, 'img': 'logos/CCCP.png', 'pg': '/CCCP'},
     {'Título': 'EGS', 'subTítulo': 'Estimador de Geração Solar', 'cor': Colors.yellow, 'img': 'logos/EGS.png', 'pg': '/EGS'},
     // {'Título': 'VASCO', 'subTítulo': 'VAriable tranSformer CalculatOr', 'cor': Colors.white, 'img': 'escudos/Vasco.png', 'pg': '/VASCO'},
-    // {'Título': 'CS', 'subTítulo': 'Counter-Strike', 'cor': const Color.fromARGB(255,117,127,109), 'img': 'logos/CS16.png', 'pg': '/'},
+    {'Título': 'CS', 'subTítulo': 'Counter-Strike', 'cor': const Color.fromARGB(255,117,127,109), 'img': 'logos/CS16.png', 'pg': '/CS16'},
   ];
 
   @override

@@ -55,7 +55,6 @@ class _EGSState extends State<EGS> {
         colorScheme: ColorScheme.fromSeed(
           seedColor: Colors.amber,
           primary: Colors.amber,
-          surface: Colors.amber,
         ),
       ),
       child: Scaffold(
