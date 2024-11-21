@@ -17,34 +17,34 @@ class EGS extends StatefulWidget {
 }
 
 class _EGSState extends State<EGS> {
+  bool _carregado = false;
 
-  bool carregado = false;
+  List<IRRAD> _irrad = [];
 
-  Map irradDados = {};
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  final formKey = GlobalKey<FormState>();
+  final TextEditingController _estado = TextEditingController();
+  List<String> _estadoOpt = [];
 
-  final TextEditingController estado = TextEditingController();
-  List<String> estadoOpt = [];
+  final TextEditingController _municipio = TextEditingController();
+  List<String> _municipioOpt = [];
 
-  final TextEditingController municipio = TextEditingController();
-  List<String> municipioOpt = [];
+  final TextEditingController _potencia = TextEditingController();
 
-  final TextEditingController potencia = TextEditingController();
+  List<MesVal> _irradVal = [];
+  List<CartesianSeries> _irradSeries = [];
 
-  Map irradMunDados = {};
-  List<CartesianSeries> irradSeries = [];
-
-  void carregarDados() async {
-    irradDados = await loadCSV2Map2col('IRRAD','EST','MUN');
-    estadoOpt = {for(var k in irradDados.keys) irradDados[k]['EST'].toString()}.toList();
-    setState((){carregado = true;});
+  void _carregar() async {
+    final List<Map> irradCSVdata = await loadCSV('IRRAD');
+    _irrad = [for(Map m in irradCSVdata) IRRAD.fromMap(m)];
+    _estadoOpt = {for(IRRAD i in _irrad) i.estado}.toList();
+    setState((){_carregado = true;});
   }
 
   @override
   void initState() {
-    carregarDados();
     super.initState();
+    _carregar();
   }
 
   @override
@@ -59,26 +59,26 @@ class _EGSState extends State<EGS> {
       ),
       child: Scaffold(
         appBar: AppBar(title: const Text('Estimador de Geração Solar'), centerTitle: true, backgroundColor: Colors.amber),
-        body: !carregado
+        body: !_carregado
         ? const Center(child: CircularProgressIndicator())
         : Column(children: [
           MediaQuery.of(context).size.width > 750
             ? Row(children: [
-              Expanded(child: SimpleP(child: SimpleTA(estado, estadoOpt, 'Estado', func: altEst))),
-              Expanded(child: SimpleP(child: SimpleTA(municipio, municipioOpt, 'Município', func: altMun, enable: municipioOpt.isNotEmpty))),
-              Expanded(child: Form(key: formKey, child: SimpleP(child: SimpleTFF(potencia, 'Potência (kW)', func: altPot, validador: isDouble)))),
+              Expanded(child: SimpleP(child: SimpleTA(_estado, _estadoOpt, 'Estado', func: altEst))),
+              Expanded(child: SimpleP(child: SimpleTA(_municipio, _municipioOpt, 'Município', func: altMun, enable: _municipioOpt.isNotEmpty))),
+              Expanded(child: Form(key: _formKey, child: SimpleP(child: SimpleTFF(_potencia, 'Potência (kW)', func: altPot, validador: isDouble)))),
             ])
             : Column(children: [
-              SimpleP(child: SimpleTA(estado, estadoOpt, 'Estado', func: altEst)),
-              SimpleP(child: SimpleTA(municipio, municipioOpt, 'Município', func: altMun, enable: municipioOpt.isNotEmpty)),
-              Form(key: formKey, child: SimpleP(child: SimpleTFF(potencia, 'Potência (kW)', func: altPot, validador: isDouble))),
+              SimpleP(child: SimpleTA(_estado, _estadoOpt, 'Estado', func: altEst)),
+              SimpleP(child: SimpleTA(_municipio, _municipioOpt, 'Município', func: altMun, enable: _municipioOpt.isNotEmpty)),
+              Form(key: _formKey, child: SimpleP(child: SimpleTFF(_potencia, 'Potência (kW)', func: altPot, validador: isDouble))),
             ]),
-          if(irradSeries.isNotEmpty) Expanded(child: SimpleP(child: SfCartesianChart(
+          if(_irradSeries.isNotEmpty) Expanded(child: SimpleP(child: SfCartesianChart(
             trackballBehavior: TrackballBehavior(enable: true, activationMode: ActivationMode.singleTap),
             legend: const Legend(title: LegendTitle(text: ''), isVisible: true, position: LegendPosition.top),
             primaryXAxis: const CategoryAxis(title: AxisTitle(text: 'Mês')),
             primaryYAxis: const NumericAxis(title: AxisTitle(text: 'Geração (kWh.mês)'), rangePadding: ChartRangePadding.normal),
-            series: irradSeries,
+            series: _irradSeries,
           ))),
         ]),
       ),
@@ -86,43 +86,71 @@ class _EGSState extends State<EGS> {
   }
 
   void altEst(){
-    municipio.text = '';
-    municipioOpt = [];
-    irradMunDados = {};
-    potencia.text = '';
-    irradSeries = [];
-    if(estadoOpt.contains(estado.text)){
-      municipioOpt = {
-        for(var k in irradDados.keys)
-          if(irradDados[k]['EST'] == estado.text)
-            irradDados[k]['MUN'].toString()
-      }.toList();
-      municipioOpt.sort((a, b){return a.compareTo(b);});
+    _municipio.text = '';
+    _municipioOpt = [];
+    _irradVal = [];
+    _potencia.text = '';
+    _irradSeries = [];
+    if(_estadoOpt.contains(_estado.text.toUpperCase())){
+      _municipioOpt = {for(IRRAD i in _irrad) if(i.estado == _estado.text.toUpperCase()) i.municipio}.toList();
+      _municipioOpt.sort((a, b){return a.compareTo(b);});
     }
     setState((){});
   }
 
   void altMun(){
-    irradMunDados = {};
-    potencia.text = '';
-    irradSeries = [];
-    if(municipioOpt.contains(municipio.text)){
-      for(var m in ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez']){
-        irradMunDados[m] = num.parse(irradDados['${estado.text}-${municipio.text}'][m]);
-      }
+    _irradVal = [];
+    _potencia.text = '';
+    _irradSeries = [];
+    if(_municipioOpt.contains(_municipio.text.toUpperCase())){
+      _irradVal = _irrad.firstWhere((i) => i.estado == _estado.text.toUpperCase() && i.municipio == _municipio.text.toUpperCase()).irrad;
     }
     setState((){});
   }
 
   altPot(){
-    irradSeries = [];
-    if(formKey.currentState!.validate()){
-      double pot = double.parse(potencia.text.replaceAll(',','.'));
-      double fat = 30*pot*0.8/1000;
-      double med = fat*num.parse(irradDados['${estado.text}-${municipio.text}']['Ano']);
-      irradSeries.add(serieColunaMesVal('Geração', Colors.amber, [for(var m in irradMunDados.keys) MesVal(m, fat*irradMunDados[m])]));
-      irradSeries.add(serieLinhaMesVal('Média', Colors.blue, [for(var m in irradMunDados.keys) MesVal(m, med)]));
+    _irradSeries = [];
+    if(_formKey.currentState!.validate()){
+      final double pot = double.parse(_potencia.text.replaceAll(',','.'));
+      final double fat = 30*pot*0.8/1000;
+      final double med = fat * _irradVal.fold(0.0, (val, i) => val += i.val)/_irradVal.length;
+      _irradSeries.add(serieColunaMesVal('Geração', Colors.amber, [for(MesVal m in _irradVal) MesVal(m.mes, fat*m.val)]));
+      _irradSeries.add(serieLinhaMesVal('Média', Colors.blue, [for(var m in _irradVal) MesVal(m.mes, med)]));
     }
     setState((){});
+  }
+}
+
+// ██ ██████  ██████   █████  ██████  
+// ██ ██   ██ ██   ██ ██   ██ ██   ██ 
+// ██ ██████  ██████  ███████ ██   ██ 
+// ██ ██   ██ ██   ██ ██   ██ ██   ██ 
+// ██ ██   ██ ██   ██ ██   ██ ██████  
+
+class IRRAD{
+  final int id;
+  final double lat;
+  final double lon;
+  final String estado;
+  final String municipio;
+
+  List<MesVal> irrad = [];
+
+  IRRAD({
+    required this.id,
+    required this.lat,
+    required this.lon,
+    required this.estado,
+    required this.municipio,
+  });
+
+  factory IRRAD.fromMap(Map map){
+    return IRRAD(
+      id: int.parse(map['ID']),
+      lat: double.parse(map['LAT']),
+      lon: double.parse(map['LON']),
+      estado: map['EST'].toString().toUpperCase(),
+      municipio: map['MUN'].toString().toUpperCase(),
+    )..irrad = [for(String mes in ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez']) MesVal(mes, int.parse(map[mes]))];
   }
 }

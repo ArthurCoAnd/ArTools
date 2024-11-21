@@ -20,6 +20,12 @@ Converte tanto de coordenadas cartesianas para coordenadas polares, quanto ao co
 
 Fornecendo o estado, município e potência instalada, estipula a geração solar.
 
+## <a href='https://artools1509.web.app/#/CS'>CS - Clima Strike</a>
+
+<a href='https://artools1509.web.app/#/CS'><img src="./assets/images/logos/CS16.png" height="100"></a>
+
+Mostra o clima atual nas cidades onde os mapas de CS são localizados.
+
 # Build
 
 ## Android

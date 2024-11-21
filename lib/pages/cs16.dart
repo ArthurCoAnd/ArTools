@@ -49,7 +49,7 @@ class _CS16State extends State<CS16> {
         fontFamily: 'CS',
       ),
       child: Scaffold(
-        appBar: AppBar(title: const Text('CS 1.6'), centerTitle: true),
+        appBar: AppBar(title: const Text('Clima-Strike 1.6'), centerTitle: true),
         body: SingleChildScrollView(
           child: Center(
             child: Wrap(

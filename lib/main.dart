@@ -40,8 +40,8 @@ class ArTools extends StatelessWidget {
       routes: {
         '/': (context) => const MENU(),
         '/CCCP': (context) => const CCCP(),
-        '/EGS': (context) => const EGS(),
         '/CS16': (context) => const CS16(),
+        '/EGS': (context) => const EGS(),
         // '/VASCO': (context) => const VASCO(),
       },
     );
@@ -62,17 +62,15 @@ class MENU extends StatefulWidget{
 }
 
 class MENUState extends State<MENU>{
-  List<Map> entradas = [
-    {'Título': 'CCCP', 'subTítulo': 'Conversor de Coordenadas\nCartesianas & Polares', 'cor': Colors.red, 'img': 'logos/CCCP.png', 'pg': '/CCCP'},
-    {'Título': 'EGS', 'subTítulo': 'Estimador de Geração Solar', 'cor': Colors.yellow, 'img': 'logos/EGS.png', 'pg': '/EGS'},
-    // {'Título': 'VASCO', 'subTítulo': 'VAriable tranSformer CalculatOr', 'cor': Colors.white, 'img': 'escudos/Vasco.png', 'pg': '/VASCO'},
-    {'Título': 'CS', 'subTítulo': 'Counter-Strike', 'cor': const Color.fromARGB(255,117,127,109), 'img': 'logos/CS16.png', 'pg': '/CS16'},
+  final List<MENUitem> _menu = [
+    MENUitem(titulo: 'CCCP', subTitulo: 'Conversor de Coordenadas\nCartesianas & Polares', corBase: Colors.red, icone: 'logos/CCCP.png', pg: '/CCCP'),
+    MENUitem(titulo: 'EGS', subTitulo: 'Estimador de Geração Solar', corBase: Colors.yellow, icone: 'logos/EGS.png', pg: '/EGS'),
+    MENUitem(titulo: 'CS', subTitulo: 'Clima-Strike', corBase: Color.fromARGB(255,117,127,109), icone: 'logos/CS16.png', pg: '/CS16'),
   ];
 
   @override
   Widget build(BuildContext context){
     return Scaffold(
-      // appBar: AppBar(title: const Text('ArTools'), centerTitle: true, backgroundColor: Colors.black, foregroundColor: const Color.fromARGB(255, 213, 213, 213)),
       body: Container(
         height: MediaQuery.of(context).size.height, width: MediaQuery.of(context).size.width,
         decoration: const BoxDecoration(image: DecorationImage(image: AssetImage('assets/images/fundos/MG.jpg'), fit: BoxFit.cover)),
@@ -80,12 +78,11 @@ class MENUState extends State<MENU>{
           child: Column(children: [
             SimpleP(child: Image.asset('assets/images/Logo.png', height: 131, width: 131)),
             const SimpleP(child: Center(child: Text('ArTools', style: TextStyle(fontSize: 31)))),
-            GridView.builder(
-              physics: const ScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: entradas.length,
-              itemBuilder:(context, index) => gerarEntrada(index),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: MediaQuery.sizeOf(context).width~/313, mainAxisExtent: 313)
+            Wrap(
+              alignment: WrapAlignment.center,
+              spacing: 13,
+              runSpacing: 13,
+              children: [for(MENUitem i in _menu) MENUitemBotao(i)],
             ),
             const SimpleP(),
           ]),
@@ -93,33 +90,51 @@ class MENUState extends State<MENU>{
       ),
     );
   }
+}
 
-  Widget gerarEntrada(int i){
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(13, 13, 13, 0),
-      child: Center(
-        child: SizedBox(
-          height: 313, width: 313,
-          child: InkWell(
-            onTap: (){Navigator.pushNamed(context, entradas[i]['pg']);},
-            child: ClipRRect(
-              borderRadius: const BorderRadius.all(Radius.circular(131)),
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 3.1, sigmaY: 3.1),
-                child: Container(
-                  decoration: BoxDecoration(
-                    image: DecorationImage(image: AssetImage('assets/images/${entradas[i]['img']}'), fit: BoxFit.contain, opacity: 0.13),
-                    color: entradas[i]['cor'].withOpacity(0.31),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset('assets/images/${entradas[i]['img']}', height: 131, width: 131),
-                      Text('${entradas[i]['Título']}', style: const TextStyle(fontSize: 31, fontWeight: FontWeight.bold), textAlign: TextAlign.center),
-                      Text('${entradas[i]['subTítulo']}', style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold), textAlign: TextAlign.center),
-                    ]
-                  ),
-                ),
+class MENUitem{
+  final String titulo;
+  final String subTitulo;
+  final Color corBase;
+  final String icone;
+  final String pg;
+
+  MENUitem({
+    required this.titulo,
+    required this.subTitulo,
+    required this.corBase,
+    required this.icone,
+    required this.pg,
+  });
+}
+
+class MENUitemBotao extends StatelessWidget{
+  const MENUitemBotao(this.menuItem, {super.key});
+
+  final MENUitem menuItem;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 313, width: 313,
+      child: InkWell(
+        onTap: (){Navigator.pushNamed(context, menuItem.pg);},
+        child: ClipRRect(
+          borderRadius: const BorderRadius.all(Radius.circular(131)),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 3.1, sigmaY: 3.1),
+            child: Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(image: AssetImage('assets/images/${menuItem.icone}'), fit: BoxFit.contain, opacity: 0.13),
+                color: menuItem.corBase.withOpacity(0.31),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset('assets/images/${menuItem.icone}', height: 131, width: 131),
+                  Text(menuItem.titulo, style: const TextStyle(fontSize: 31, fontWeight: FontWeight.bold), textAlign: TextAlign.center),
+                  Text(menuItem.subTitulo, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold), textAlign: TextAlign.center),
+                ]
               ),
             ),
           ),
