@@ -39,3 +39,18 @@ CartesianSeries<dynamic, dynamic> serieColunaMesVal(String nome, Color cor, List
     yValueMapper: (MesVal data, _) => data.val,
   );
 }
+
+class DtVal {
+  DtVal(this.dt, this.val);
+  final DateTime dt;
+  final num val;
+}
+
+CartesianSeries<dynamic, dynamic> serieLinhaDtVal(String nome, Color cor, List<DtVal> dados){
+  return LineSeries<DtVal, DateTime>(
+    name: nome, color: cor,
+    dataSource: dados,
+    xValueMapper: (DtVal data, _) => data.dt,
+    yValueMapper: (DtVal data, _) => data.val,
+  );
+}

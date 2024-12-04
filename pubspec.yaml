@@ -21,11 +21,12 @@ dependencies:
   http: ^1.2.2
   syncfusion_flutter_charts: ^27.1.53
   syncfusion_flutter_datagrid: ^27.1.53
-  syncfusion_flutter_datepicker: ^27.1.53
-  syncfusion_flutter_gauges: ^27.1.53
   syncfusion_flutter_pdf: ^27.1.53
-  syncfusion_flutter_signaturepad: ^27.1.53
   syncfusion_localizations: ^27.1.53
+
+  # geolocator: ^13.0.2
+  location: ^7.0.1
+  geocode: ^1.0.3
 
 dev_dependencies:
   flutter_test:

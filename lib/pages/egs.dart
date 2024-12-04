@@ -1,5 +1,6 @@
 // PACKAGES
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 // SERVICES
@@ -56,6 +57,7 @@ class _EGSState extends State<EGS> {
           seedColor: Colors.amber,
           primary: Colors.amber,
         ),
+        fontFamily: GoogleFonts.sunflower().fontFamily,
       ),
       child: Scaffold(
         appBar: AppBar(title: const Text('Estimador de Geração Solar'), centerTitle: true, backgroundColor: Colors.amber),

@@ -16,6 +16,7 @@ import 'package:syncfusion_localizations/syncfusion_localizations.dart';
 import 'package:artools/pages/cccp.dart';
 import 'package:artools/pages/egs.dart';
 import 'package:artools/pages/cs16.dart';
+// import 'package:artools/pages/lavar_roupa.dart';
 // import 'package:artools/pages/vasco.dart';
 
 // WIDGETS
@@ -28,21 +29,21 @@ class ArTools extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final String? fonte = GoogleFonts.ubuntu().fontFamily;
+    final String? fonte = GoogleFonts.oswald().fontFamily;
 
     return MaterialApp(
-      localizationsDelegates: const [GlobalMaterialLocalizations.delegate, GlobalWidgetsLocalizations.delegate, SfGlobalLocalizations.delegate],
+      localizationsDelegates: const [GlobalCupertinoLocalizations.delegate, GlobalMaterialLocalizations.delegate, GlobalWidgetsLocalizations.delegate, SfGlobalLocalizations.delegate],
       supportedLocales: const [Locale('pt','BR')],
       locale: const Locale('pt','BR'),
       title: 'ArTools',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(useMaterial3: true, colorScheme: ColorScheme.fromSeed(seedColor: Colors.grey), fontFamily: fonte),
+      theme: ThemeData(useMaterial3: true, colorScheme: ColorScheme.fromSeed(seedColor: Colors.black), fontFamily: fonte),
       routes: {
         '/': (context) => const MENU(),
         '/CCCP': (context) => const CCCP(),
         '/CS16': (context) => const CS16(),
         '/EGS': (context) => const EGS(),
-        // '/VASCO': (context) => const VASCO(),
+        // '/LavarRoupa': (context) => const LavarRoupa(),
       },
     );
   }
@@ -66,6 +67,7 @@ class MENUState extends State<MENU>{
     MENUitem(titulo: 'CCCP', subTitulo: 'Conversor de Coordenadas\nCartesianas & Polares', corBase: Colors.red, icone: 'logos/CCCP.png', pg: '/CCCP'),
     MENUitem(titulo: 'EGS', subTitulo: 'Estimador de Geração Solar', corBase: Colors.yellow, icone: 'logos/EGS.png', pg: '/EGS'),
     MENUitem(titulo: 'CS', subTitulo: 'Clima-Strike', corBase: Color.fromARGB(255,117,127,109), icone: 'logos/CS16.png', pg: '/CS16'),
+    // MENUitem(titulo: 'Lavar Roupa?', subTitulo: 'Devo lavar minhas\nroupas agora?', corBase: Colors.blue, icone: 'logos/LavarRoupa.png', pg: '/LavarRoupa'),
   ];
 
   @override
@@ -99,13 +101,15 @@ class MENUitem{
   final String icone;
   final String pg;
 
+  Color corTxt = Colors.black;
+
   MENUitem({
     required this.titulo,
     required this.subTitulo,
     required this.corBase,
     required this.icone,
     required this.pg,
-  });
+  }){if(corBase.computeLuminance() < 0.5){corTxt = Colors.white;}}
 }
 
 class MENUitemBotao extends StatelessWidget{
@@ -118,7 +122,7 @@ class MENUitemBotao extends StatelessWidget{
     return SizedBox(
       height: 313, width: 313,
       child: InkWell(
-        onTap: (){Navigator.pushNamed(context, menuItem.pg);},
+        onTap: () => Navigator.pushNamed(context, menuItem.pg),
         child: ClipRRect(
           borderRadius: const BorderRadius.all(Radius.circular(131)),
           child: BackdropFilter(
@@ -132,8 +136,8 @@ class MENUitemBotao extends StatelessWidget{
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Image.asset('assets/images/${menuItem.icone}', height: 131, width: 131),
-                  Text(menuItem.titulo, style: const TextStyle(fontSize: 31, fontWeight: FontWeight.bold), textAlign: TextAlign.center),
-                  Text(menuItem.subTitulo, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold), textAlign: TextAlign.center),
+                  Text(menuItem.titulo, style: TextStyle(fontSize: 31, fontWeight: FontWeight.bold, color: menuItem.corTxt), textAlign: TextAlign.center),
+                  Text(menuItem.subTitulo, style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: menuItem.corTxt), textAlign: TextAlign.center),
                 ]
               ),
             ),

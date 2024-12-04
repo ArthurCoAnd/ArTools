@@ -75,7 +75,7 @@ class SimpleDDState extends State<SimpleDD>{
 // ██      ██   ██ ██   ██ ██   ██ ██ ██  ██ ██ ██    ██ 
 // ██      ██   ██ ██████  ██████  ██ ██   ████  ██████  
 
-class SimpleP extends StatefulWidget{
+class SimpleP extends StatelessWidget{
   const SimpleP({super.key,
     this.child,
     this.p = const [13, 13, 13, 0],
@@ -85,15 +85,10 @@ class SimpleP extends StatefulWidget{
   final List<double> p;
 
   @override
-  SimplePState createState() => SimplePState();
-}
-
-class SimplePState extends State<SimpleP>{
-  @override
   Widget build(BuildContext context){
     return Padding(
-      padding: EdgeInsets.fromLTRB(widget.p[0], widget.p[1], widget.p[2], widget.p[3]),
-      child: widget.child,
+      padding: EdgeInsets.fromLTRB(p[0], p[1], p[2], p[3]),
+      child: child,
     );
   }
 }
