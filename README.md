@@ -25,31 +25,3 @@ Fornecendo o estado, município e potência instalada, estipula a geração sola
 <a href='https://artools1509.web.app/#/CS'><img src="./assets/images/logos/CS16.png" height="100"></a>
 
 Mostra o clima atual nas cidades onde os mapas de CS são localizados.
-
-# Build
-
-## Android
-
-```
-flutter build apk --release
-```
-
-## Web
-```
-flutter build web
-```
-
-# Launch
-
-## Firebase
-```
-firebase login
-```
-
-```
-firebase init
-```
-
-```
-firebase deploy
-```
