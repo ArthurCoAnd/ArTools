@@ -25,3 +25,8 @@ Fornecendo o estado, município e potência instalada, estipula a geração sola
 <a href='https://artools1509.web.app/#/CS'><img src="./assets/images/logos/CS16.png" height="100"></a>
 
 Mostra o clima atual nas cidades onde os mapas de CS são localizados.
+## <a href='https://artools1509.web.app/#/Cocoladora'>Cocôladora</a>
+
+<a href='https://artools1509.web.app/#/Cocoladora'><img src="./assets/images/logos/Cocoladora.png" height="100"></a>
+
+Calcula sua cagada remunerada.
