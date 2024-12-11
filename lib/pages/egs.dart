@@ -68,12 +68,12 @@ class _EGSState extends State<EGS> {
             ? Row(children: [
               Expanded(child: SimpleP(child: SimpleTA(_estado, _estadoOpt, 'Estado', func: altEst))),
               Expanded(child: SimpleP(child: SimpleTA(_municipio, _municipioOpt, 'Município', func: altMun, enable: _municipioOpt.isNotEmpty))),
-              Expanded(child: Form(key: _formKey, child: SimpleP(child: SimpleTFF(_potencia, 'Potência (kW)', func: altPot, validador: isDouble)))),
+              Expanded(child: Form(key: _formKey, child: SimpleP(child: SimpleTFF(_potencia, 'Potência (kW)', func: altPot, validador: valIsDouble)))),
             ])
             : Column(children: [
               SimpleP(child: SimpleTA(_estado, _estadoOpt, 'Estado', func: altEst)),
               SimpleP(child: SimpleTA(_municipio, _municipioOpt, 'Município', func: altMun, enable: _municipioOpt.isNotEmpty)),
-              Form(key: _formKey, child: SimpleP(child: SimpleTFF(_potencia, 'Potência (kW)', func: altPot, validador: isDouble))),
+              Form(key: _formKey, child: SimpleP(child: SimpleTFF(_potencia, 'Potência (kW)', func: altPot, validador: valIsDouble))),
             ]),
           if(_irradSeries.isNotEmpty) Expanded(child: SimpleP(child: SfCartesianChart(
             trackballBehavior: TrackballBehavior(enable: true, activationMode: ActivationMode.singleTap),

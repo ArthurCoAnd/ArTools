@@ -8,20 +8,20 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 //  ██  ██  ██   ██ ██      ██ ██   ██ ██   ██ ██   ██ ██    ██ ██   ██ ██           ██ 
 //   ████   ██   ██ ███████ ██ ██████  ██   ██ ██████   ██████  ██   ██ ███████ ███████ 
 
-String? isTxt(String? txt){
+String? valIsTxt(String? txt){
   if(txt != ''){
     return null;
   }else{return 'Preencha com um valor!';}
 }
 
-String? isInt(String? txt){
+String? valIsInt(String? txt){
   try{
     int.parse(txt!.replaceAll(',','.'));
     return null;
   }catch(_){return 'Preencha com um valor numérico inteiro válido!';}
 }
 
-String? isDouble(String? txt){
+String? valIsDouble(String? txt){
   try{
     double.parse(txt!.replaceAll(',','.'));
     return null;
@@ -166,7 +166,7 @@ class SimpleSState extends State<SimpleS>{
 //    ██    ███████ ██   ██    ██          ██       ██████  ██   ██ ██      ██       ██      ██ ███████ ███████ ██████  
 
 class SimpleTFF extends StatefulWidget{
-  const SimpleTFF(this.ctrl, this.nome, {super.key, this.kb = 'txt', this.enable = true, this.senha = false, this.func, this.validador = isTxt, this.focusNode});
+  const SimpleTFF(this.ctrl, this.nome, {super.key, this.kb = 'txt', this.enable = true, this.senha = false, this.func, this.validador = valIsTxt, this.focusNode, this.centralizado = false});
 
   final TextEditingController ctrl;
   final String nome;
@@ -177,6 +177,7 @@ class SimpleTFF extends StatefulWidget{
   final Function? func;
   final String? Function(String?) validador;
   final FocusNode? focusNode;
+  final bool centralizado;
 
   @override
   SimpleTFFState createState() => SimpleTFFState();
@@ -192,7 +193,8 @@ class SimpleTFFState extends State<SimpleTFF>{
     return TextFormField(
       controller: widget.ctrl,
       onChanged: (value) {if(widget.func != null){widget.func!();}},
-      decoration: InputDecoration(border: const OutlineInputBorder(), labelText: widget.nome),
+      decoration: InputDecoration(border: const OutlineInputBorder(), labelText: widget.nome, floatingLabelAlignment: widget.centralizado ? FloatingLabelAlignment.center : null),
+      textAlign: widget.centralizado ? TextAlign.center : TextAlign.start,
       focusNode: widget.focusNode,
       keyboardType: tit,
       enabled: widget.enable,
@@ -210,7 +212,7 @@ class SimpleTFFState extends State<SimpleTFF>{
 //    ██       ██    ██      ███████       ██   ██ ██   ██ ███████ ██   ██ ██████  
 
 class SimpleTA extends StatefulWidget{
-  const SimpleTA(this.ctrl, this.opt, this.nome, {super.key, this.kb = 'txt', this.enable = true, this.func, this.validador = isTxt, this.focusNode});
+  const SimpleTA(this.ctrl, this.opt, this.nome, {super.key, this.kb = 'txt', this.enable = true, this.func, this.validador = valIsTxt, this.focusNode});
 
   final TextEditingController ctrl;
   final String nome;

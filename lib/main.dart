@@ -14,8 +14,9 @@ import 'package:syncfusion_localizations/syncfusion_localizations.dart';
 
 // PAGES
 import 'package:artools/pages/cccp.dart';
-import 'package:artools/pages/egs.dart';
+import 'package:artools/pages/cocoladora.dart';
 import 'package:artools/pages/cs16.dart';
+import 'package:artools/pages/egs.dart';
 // import 'package:artools/pages/lavar_roupa.dart';
 // import 'package:artools/pages/vasco.dart';
 
@@ -41,6 +42,7 @@ class ArTools extends StatelessWidget {
       routes: {
         '/': (context) => const MENU(),
         '/CCCP': (context) => const CCCP(),
+        '/Cocoladora': (context) => const Cocoladora(),
         '/CS16': (context) => const CS16(),
         '/EGS': (context) => const EGS(),
         // '/LavarRoupa': (context) => const LavarRoupa(),
@@ -68,6 +70,7 @@ class MENUState extends State<MENU>{
     MENUitem(titulo: 'EGS', subTitulo: 'Estimador de Geração Solar', corBase: Colors.yellow, icone: 'logos/EGS.png', pg: '/EGS'),
     MENUitem(titulo: 'CS', subTitulo: 'Clima-Strike', corBase: Color.fromARGB(255,117,127,109), icone: 'logos/CS16.png', pg: '/CS16'),
     // MENUitem(titulo: 'Lavar Roupa?', subTitulo: 'Devo lavar minhas\nroupas agora?', corBase: Colors.blue, icone: 'logos/LavarRoupa.png', pg: '/LavarRoupa'),
+    MENUitem(titulo: 'Cocôladora', subTitulo: 'Sua 💩 em 💸', corBase: Colors.brown, icone: 'logos/Cocoladora.png', pg: '/Cocoladora'),
   ];
 
   @override
