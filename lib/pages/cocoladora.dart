@@ -56,9 +56,9 @@ class CocoladoraState extends State<Cocoladora>{
                       child: Column(children: [
                         SimpleP(child: Image.asset('assets/images/logos/Cocoladora.png', height: 131, width: 131)),
                         const SimpleP(child: Center(child: Text('Cocôladora', style: TextStyle(fontSize: 31)))),
-                        SimpleP(child: SimpleTFF(_salarioTEC, 'Média Salarial Mensal (R\$/mês)', validador: valIsDouble, func: _calcular, centralizado: true)),
-                        SimpleP(child: SimpleTFF(_horasTEC, 'Carga Horária Semanal (h/semana)', validador: valIsDouble, func: _calcular, centralizado: true)),
-                        SimpleP(child: SimpleTFF(_minutosTEC, 'Média de Tempo no Troninho (min/💩)', validador: valIsDouble, func: _calcular, centralizado: true)),
+                        SimpleP(child: SimpleTFF(_salarioTEC, 'Média Salarial Mensal (R\$/mês)', validador: valIsDouble, func: _calcular, centralizado: true, kb: 'num')),
+                        SimpleP(child: SimpleTFF(_horasTEC, 'Carga Horária Semanal (h/semana)', validador: valIsDouble, func: _calcular, centralizado: true, kb: 'num')),
+                        SimpleP(child: SimpleTFF(_minutosTEC, 'Média de Tempo no Troninho (min/💩)', validador: valIsDouble, func: _calcular, centralizado: true, kb: 'num')),
                         if(_dinheiro != null) SimpleP(child: SelectableText('Sua 💩 lhe rende R\$${_dinheiro!.toStringAsFixed(2).replaceAll('.',',')}', style: TextStyle(fontSize: 20), textAlign: TextAlign.center)),
                         const SimpleP(),
                       ]),
@@ -78,7 +78,7 @@ class CocoladoraState extends State<Cocoladora>{
     _horas = str2double(_horasTEC.text);
     _minutos = str2double(_minutosTEC.text);
     if(_salario != null && _horas != null && _minutos != null){
-      _dinheiro = _minutos! * _salario! / ( 60 * _horas! );
+      _dinheiro = _minutos! * _salario! / ( 60 * _horas! * 4);
     } else { _dinheiro = null; }
     setState((){});
   }
