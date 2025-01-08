@@ -59,7 +59,7 @@ class CocoladoraState extends State<Cocoladora>{
                         SimpleP(child: SimpleTFF(_salarioTEC, 'Média Salarial Mensal (R\$/mês)', validador: valIsDouble, func: _calcular, centralizado: true, kb: 'num')),
                         SimpleP(child: SimpleTFF(_horasTEC, 'Carga Horária Semanal (h/semana)', validador: valIsDouble, func: _calcular, centralizado: true, kb: 'num')),
                         SimpleP(child: SimpleTFF(_minutosTEC, 'Média de Tempo no Troninho (min/💩)', validador: valIsDouble, func: _calcular, centralizado: true, kb: 'num')),
-                        if(_dinheiro != null) SimpleP(child: SelectableText('Sua 💩 lhe rende R\$${_dinheiro!.toStringAsFixed(2).replaceAll('.',',')}', style: TextStyle(fontSize: 20), textAlign: TextAlign.center)),
+                        if(_dinheiro != null) SimpleP(child: SelectableText('Sua 💩 lhe rende: R\$${_dinheiro!.toStringAsFixed(2).replaceAll('.',',')}', style: TextStyle(fontSize: 20), textAlign: TextAlign.center)),
                         const SimpleP(),
                       ]),
                     ),
