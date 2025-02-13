@@ -18,13 +18,14 @@ Converte tanto de coordenadas cartesianas para coordenadas polares, quanto ao co
 
 <a href='https://artools1509.web.app/#/EGS'><img src="./assets/images/logos/EGS.png" height="100"></a>
 
-Fornecendo o estado, município e potência instalada, estipula a geração solar.
+Fornecendo o estado, município e potência instalada, estipula a geração solar durante o ano.
 
 ## <a href='https://artools1509.web.app/#/CS'>CS - Clima Strike</a>
 
 <a href='https://artools1509.web.app/#/CS'><img src="./assets/images/logos/CS16.png" height="100"></a>
 
-Mostra o clima atual nas cidades onde os mapas de CS são localizados.
+Mostra o clima atual nas cidades onde os mapas de CS são localizados na vida real.
+
 ## <a href='https://artools1509.web.app/#/Cocoladora'>Cocôladora</a>
 
 <a href='https://artools1509.web.app/#/Cocoladora'><img src="./assets/images/logos/Cocoladora.png" height="100"></a>

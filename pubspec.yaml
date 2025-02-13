@@ -12,6 +12,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
 
+  complex: ^0.8.0
   csv: ^6.0.0
   cupertino_icons: ^1.0.6
   flutter_launcher_icons: ^0.14.1
@@ -20,11 +21,11 @@ dependencies:
   geocode: ^1.0.3
   google_fonts: ^6.2.1
   http: ^1.2.2
-  location: ^7.0.1
-  syncfusion_flutter_charts: ^27.1.53
-  syncfusion_flutter_datagrid: ^27.1.53
-  syncfusion_flutter_pdf: ^27.1.53
-  syncfusion_localizations: ^27.1.53
+  location: ^8.0.0
+  syncfusion_flutter_charts: ^28.2.5+1
+  syncfusion_flutter_datagrid: ^28.2.5
+  syncfusion_flutter_pdf: ^28.2.5
+  syncfusion_localizations: ^28.2.5
 
 dev_dependencies:
   flutter_test:

@@ -1,14 +1,12 @@
-double? str2double(String txt){
-  try{return double.parse(txt.replaceAll(',','.'));}
-  catch(_){return null;}
+String? str2str(String? str){
+  return (str == ''
+    ? null
+    : str
+  );
 }
 
-int? str2int(String txt){
-  try{return int.parse(txt);}
-  catch(_){return null;}
-}
+double? str2double(String? str){return double.tryParse(str?.replaceAll(',','.') ?? '');}
 
-num? str2num(String txt){
-  try{return num.parse(txt.replaceAll(',','.'));}
-  catch(_){return null;}
-}
+int? str2int(String? str){return int.tryParse(str ?? '');}
+
+num? str2num(String? str){return num.tryParse(str ?? '');}
