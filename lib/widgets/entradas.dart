@@ -192,6 +192,7 @@ class SimpleTFFState extends State<SimpleTFF>{
     
     return TextFormField(
       controller: widget.ctrl,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       onChanged: (value) {if(widget.func != null){widget.func!();}},
       decoration: InputDecoration(border: const OutlineInputBorder(), labelText: widget.nome, floatingLabelAlignment: widget.centralizado ? FloatingLabelAlignment.center : null),
       textAlign: widget.centralizado ? TextAlign.center : TextAlign.start,

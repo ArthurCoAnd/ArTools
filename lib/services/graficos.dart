@@ -54,3 +54,12 @@ CartesianSeries<dynamic, dynamic> serieLinhaDtVal(String nome, Color cor, List<D
     yValueMapper: (DtVal data, _) => data.val,
   );
 }
+
+CartesianSeries<dynamic, dynamic> serieColunaDtVal(String nome, Color cor, List<DtVal> dados){
+  return ColumnSeries<DtVal, DateTime>(
+    name: nome, color: cor,
+    dataSource: dados,
+    xValueMapper: (DtVal data, _) => data.dt,
+    yValueMapper: (DtVal data, _) => data.val,
+  );
+}

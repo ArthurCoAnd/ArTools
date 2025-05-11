@@ -5,13 +5,11 @@
 // ██║  ██║██║  ██║   ██║   ╚██████╔╝╚██████╔╝███████╗███████║
 // ╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝    ╚═════╝  ╚═════╝ ╚══════╝╚══════╝
 
-import 'package:artools/app/dvd/dvd.dart';
+import 'package:artools/app/cocoladora/cocoladora.dart';
 import 'package:artools/app/menu/menu.dart';
-import 'package:artools/pages/cccp.dart';
-import 'package:artools/pages/cocoladora.dart';
-import 'package:artools/pages/cs16.dart';
-import 'package:artools/pages/egs.dart';
-import 'package:artools/app/vasco/vasco.dart';
+import 'package:artools/app/cccp/cccp.dart';
+import 'package:artools/app/cs16/cs16.dart';
+import 'package:artools/app/egs/egs.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -45,10 +43,7 @@ class ArTools extends StatelessWidget {
         '/CCCP': (context) => const CCCP(),
         '/Cocoladora': (context) => const Cocoladora(),
         '/CS16': (context) => const CS16(),
-        '/DVD': (context) => const DVD(),
         '/EGS': (context) => const EGS(),
-        // '/LavarRoupa': (context) => const LavarRoupa(),
-        '/VASCO': (context) => const VASCO(),
       },
     );
   }

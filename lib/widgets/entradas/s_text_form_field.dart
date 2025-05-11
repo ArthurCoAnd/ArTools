@@ -35,6 +35,7 @@ class STextFormField extends StatefulWidget{
       this.func,
       this.kb,
       this.senha = false,
+      this.unidade,
       this.validador,
     }
   );
@@ -47,6 +48,7 @@ class STextFormField extends StatefulWidget{
   final Function? func;
   final String? kb;
   final bool senha;
+  final String? unidade;
   final String? Function(String?)? validador;
 
   @override
@@ -65,7 +67,7 @@ class _STextFormFieldState extends State<STextFormField>{
     return TextFormField(
       autovalidateMode: AutovalidateMode.onUserInteraction,
       controller: widget.tec,
-      decoration: InputDecoration(border: const OutlineInputBorder(), labelText: widget.nome),
+      decoration: InputDecoration(border: const OutlineInputBorder(), labelText: widget.nome, suffixText: widget.unidade),
       enabled: widget.enable,
       focusNode: widget.focusNode,
       keyboardType: _tit(),

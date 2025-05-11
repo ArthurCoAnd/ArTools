@@ -15,12 +15,7 @@ class MENUState extends State<MENU>{
     MenuItem('CCCP', subTitulo: 'Conversor de Coordenadas\nCartesianas & Polares', corBase: Colors.red, icone: 'logos/CCCP.png', pg: '/CCCP'),
     MenuItem('EGS', subTitulo: 'Estimador de Geração Solar', corBase: Colors.yellow, icone: 'logos/EGS.png', pg: '/EGS'),
     MenuItem('CS', subTitulo: 'Clima-Strike', corBase: Color.fromARGB(255,117,127,109), icone: 'logos/CS16.png', pg: '/CS16'),
-    // MenuItem('Lavar Roupa?', 'Devo lavar minhas\nroupas agora?', Colors.blue, 'logos/LavarRoupa.png', pg: '/LavarRoupa'),
     MenuItem('Cocôladora', subTitulo: 'Sua 💩 em 💸', corBase: Colors.brown, icone: 'logos/Cocoladora.png', pg: '/Cocoladora'),
-    // MenuItem('VASCO', subTitulo: 'VAriable tranSformer CalculatOr', corBase: Colors.black, icone: 'escudos/Vasco.png', pg: '/VASCO'),
-    // MenuItem('Estados\nBrasileiros', corBase: Colors.yellow, icone: 'logos/MapaBrasil.png'),
-    // MenuItem('INTER', corBase: Colors.red, icone: 'escudos/Inter.png'),
-    // MenuItem('AMÉRICA', corBase: Colors.green, icone: 'escudos/América.png'),
   ];
 
   @override
