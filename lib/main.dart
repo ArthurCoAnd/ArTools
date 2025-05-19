@@ -5,6 +5,9 @@
 // ██║  ██║██║  ██║   ██║   ╚██████╔╝╚██████╔╝███████╗███████║
 // ╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝    ╚═════╝  ╚═════╝ ╚══════╝╚══════╝
 
+// Desenvolvedores:
+// - Arthur Cordeiro Andrade
+
 import 'package:artools/app/cocoladora/cocoladora.dart';
 import 'package:artools/app/menu/menu.dart';
 import 'package:artools/app/cccp/cccp.dart';

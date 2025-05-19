@@ -1,19 +1,14 @@
 String? valIsStr(String? txt){
-  if(txt != ''){
-    return null;
-  }else{return 'Preencha com um valor!';}
+  if(txt == ''){return 'Preencha com um valor!';}
+  return null;
 }
 
 String? valIsInt(String? txt){
-  try{
-    int.parse(txt!.replaceAll(',','.'));
-    return null;
-  }catch(_){return 'Preencha com um valor numérico inteiro válido!';}
+  if(int.tryParse(txt ?? '') == null){return 'Preencha com um valor numérico inteiro válido!';}
+  return null;
 }
 
 String? valIsDouble(String? txt){
-  try{
-    double.parse(txt!.replaceAll(',','.'));
-    return null;
-  }catch(_){return 'Preencha com um valor numérico válido!';}
+  if(double.tryParse(txt?.replaceAll(',','.') ?? '') == null){return 'Preencha com um valor numérico válido!';}
+  return null;
 }
