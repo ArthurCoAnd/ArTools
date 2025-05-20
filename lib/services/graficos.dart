@@ -7,10 +7,11 @@ class XY {
   final num y;
 }
 
-CartesianSeries<dynamic, dynamic> serieLinhaXY(String nome, Color cor, List<XY> dados){
+CartesianSeries<dynamic, dynamic> serieLinhaXY(String nome, Color cor, List<XY> dados, {double wdt = 2}){
   return LineSeries<XY, num>(
     name: nome, color: cor,
     dataSource: dados,
+    width: wdt,
     xValueMapper: (XY data, _) => data.x,
     yValueMapper: (XY data, _) => data.y,
   );

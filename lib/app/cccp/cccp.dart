@@ -1,12 +1,6 @@
-import 'dart:math';
-import 'package:artools/services/graficos.dart';
+import 'package:artools/app/cccp/cccp_coordenadas.dart';
+import 'package:artools/app/cccp/cccp_grafico.dart';
 import 'package:flutter/material.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
-
-// SERVICES
-import 'package:artools/services/conversores.dart';
-
-// WIDGETS
 import 'package:artools/widgets/entradas.dart';
 
 class CCCP extends StatefulWidget{
@@ -17,15 +11,21 @@ class CCCP extends StatefulWidget{
 }
 
 class CCCPState extends State<CCCP>{
-  Coordenada c = Coordenada();
+  final CCCPcoordenadas _coordenadas = CCCPcoordenadas();
 
-  final TextEditingController x = TextEditingController();
-  final TextEditingController y = TextEditingController();
-  final TextEditingController mod = TextEditingController();
-  final TextEditingController angG = TextEditingController();
-  final TextEditingController angR = TextEditingController();
+  final TextEditingController _x = TextEditingController();
+  final TextEditingController _y = TextEditingController();
+  final TextEditingController _mod = TextEditingController();
+  final TextEditingController _angG = TextEditingController();
+  final TextEditingController _angR = TextEditingController();
 
-  List<CartesianSeries> seriesGrafico = [];
+  late CCCPgrafico _grafico;
+
+  @override
+  void initState() {
+    super.initState();
+    _grafico = CCCPgrafico(_coordenadas);
+  }
 
   // ██       █████  ██    ██  ██████  ██    ██ ████████ 
   // ██      ██   ██  ██  ██  ██    ██ ██    ██    ██    
@@ -74,25 +74,21 @@ class CCCPState extends State<CCCP>{
                             child: Column(children: [
                               // Entrada Cartesiana
                               const SimpleP(child: Text('Cartesiano', textAlign: TextAlign.center, style: TextStyle(fontSize: 31))),
-                              SimpleP(child: SimpleTFF(x, 'X', func: altCar)),
-                              SimpleP(child: SimpleTFF(y, 'Y', func: altCar)),
+                              SimpleP(child: SimpleTFF(_x, 'X', func: altCar)),
+                              SimpleP(child: SimpleTFF(_y, 'Y', func: altCar)),
                               // Entrada Polar
                               const SimpleP(child: Text('Polar', textAlign: TextAlign.center, style: TextStyle(fontSize: 31))),
-                              SimpleP(child: SimpleTFF(mod, 'Módulo', func: altPol)),
-                              SimpleP(child: SimpleTFF(angG, 'Ângulo Graus', func: altAngG)),
-                              SimpleP(child: SimpleTFF(angR, 'Ângulo Radianos', func: altAngR)),
+                              SimpleP(child: SimpleTFF(_mod, 'Módulo', func: altPol)),
+                              SimpleP(child: SimpleTFF(_angG, 'Ângulo Graus', func: altAngG)),
+                              SimpleP(child: SimpleTFF(_angR, 'Ângulo Radianos', func: altAngR)),
                               const SimpleP(),
                             ]),
                           ),
                           SizedBox(
-                            width: 500,
+                            width: 400,
                             child: Column(children: [
                               const SimpleP(child: Text('Gráfico', textAlign: TextAlign.center, style: TextStyle(fontSize: 31))),
-                              SimpleP(child: SfCartesianChart(
-                                series: seriesGrafico,
-                                primaryXAxis: const NumericAxis(rangePadding: ChartRangePadding.normal),
-                                primaryYAxis: const NumericAxis(rangePadding: ChartRangePadding.normal),
-                              )),
+                              SimpleP(child: _grafico),
                             ]),
                           ),
                         ],
@@ -115,113 +111,50 @@ class CCCPState extends State<CCCP>{
   // ██   ██ ███████    ██    ███████ ██   ██ ██   ██ ██   ██ 
 
   void altCar(){
-    c.altX(x.text);
-    c.altY(y.text);
-    c.car2pol();
+    _coordenadas.altX(_x.text);
+    _coordenadas.altY(_y.text);
+    _coordenadas.car2pol();
     altEntradasPol();
   }
 
   void altPol(){
-    c.altMod(mod.text);
-    c.pol2car();
+    _coordenadas.altMod(_mod.text);
+    _coordenadas.pol2car();
     altEntradasCar();
   }
 
   void altAngG(){
-    c.altAngG(angG.text);
-    c.grau2rag();
+    _coordenadas.altAngG(_angG.text);
+    _coordenadas.grau2rag();
     setState(() {
-      angR.text = c.angR?.toString().replaceAll('.',',') ?? '';
+      _angR.text = _coordenadas.angR?.toString().replaceAll('.',',') ?? '';
     });
     altPol();
   }
 
   void altAngR(){
-    c.altAngR(angR.text);
-    c.rad2grau();
+    _coordenadas.altAngR(_angR.text);
+    _coordenadas.rad2grau();
     setState(() {
-      angG.text = c.angG?.toString().replaceAll('.',',') ?? '';
+      _angG.text = _coordenadas.angG?.toString().replaceAll('.',',') ?? '';
     });
     altPol();
   }
 
   void altEntradasCar(){
-    gerarGrafico();
+    _grafico = CCCPgrafico(_coordenadas);
     setState(() {
-      x.text = c.x?.toString().replaceAll('.',',') ?? '';
-      y.text = c.y?.toString().replaceAll('.',',') ?? '';
+      _x.text = _coordenadas.x?.toString().replaceAll('.',',') ?? '';
+      _y.text = _coordenadas.y?.toString().replaceAll('.',',') ?? '';
     });
   }
 
   void altEntradasPol(){
-    gerarGrafico();
+    _grafico = CCCPgrafico(_coordenadas);
     setState(() {
-      mod.text = c.mod?.toString().replaceAll('.',',') ?? '';
-      angG.text = c.angG?.toString().replaceAll('.',',') ?? '';
-      angR.text = c.angR?.toString().replaceAll('.',',') ?? '';
+      _mod.text = _coordenadas.mod?.toString().replaceAll('.',',') ?? '';
+      _angG.text = _coordenadas.angG?.toString().replaceAll('.',',') ?? '';
+      _angR.text = _coordenadas.angR?.toString().replaceAll('.',',') ?? '';
     });
-  }
-
-  void gerarGrafico(){
-    seriesGrafico = [];
-    if(c.x != null && c.y != null){
-      seriesGrafico.add(serieLinhaXY('X', Colors.black, [XY(-c.mod!,0),XY(c.mod!,0)]));
-      seriesGrafico.add(serieLinhaXY('Y', Colors.black, [XY(0,-c.mod!),XY(0,c.mod!)]));
-      seriesGrafico.add(serieLinhaXY('Módulo', Colors.red, [XY(0,0), XY(c.x!,c.y!)]));
-    }
-  }
-}
-
-  //  ██████  ██████   ██████  ██████  ██████  ███████ ███    ██  █████  ██████   █████  ███████ 
-  // ██      ██    ██ ██    ██ ██   ██ ██   ██ ██      ████   ██ ██   ██ ██   ██ ██   ██ ██      
-  // ██      ██    ██ ██    ██ ██████  ██   ██ █████   ██ ██  ██ ███████ ██   ██ ███████ ███████ 
-  // ██      ██    ██ ██    ██ ██   ██ ██   ██ ██      ██  ██ ██ ██   ██ ██   ██ ██   ██      ██ 
-  //  ██████  ██████   ██████  ██   ██ ██████  ███████ ██   ████ ██   ██ ██████  ██   ██ ███████ 
-
-class Coordenada{
-  Coordenada({this.x, this.y, this.mod, this.angG, this.angR});
-
-  double? x;
-  double? y;
-  double? mod;
-  double? angG;
-  double? angR;
-
-  void altX(String str){x = str2double(str);}
-  void altY(String str){y = str2double(str);}
-  void altMod(String str){mod = str2double(str);}
-  void altAngG(String str){angG = str2double(str);}
-  void altAngR(String str){angR = str2double(str);}
-
-  void grau2rag(){
-    try{angR = 2 * pi * angG! / 360;}
-    catch(_){angR = null;}
-  }
-
-  void rad2grau(){
-    try{angG = angR! * 360 / (2 * pi);}
-    catch(_){angG = null;}
-  }
-
-  void car2pol(){
-    try{
-      mod = sqrt(x!*x!+y!*y!);
-      angR = asin(y!/mod!);
-      angG = angR!*360/(2*pi);
-    }catch(_){
-      mod = null;
-      angR = null;
-      angG = null;
-    }
-  }
-
-  void pol2car(){
-    try{
-      x = mod! * cos(angR!);
-      y = mod! * sin(angR!);
-    }catch(_){
-      x = null;
-      y = null;
-    }
   }
 }
