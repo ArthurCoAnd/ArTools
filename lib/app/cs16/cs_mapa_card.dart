@@ -1,4 +1,5 @@
 import 'package:artools/app/cs16/cs_mapa.dart';
+import 'package:artools/services/conversores.dart';
 import 'package:flutter/material.dart';
 
 //  ██████ ███████       ███    ███  █████  ██████   █████         ██████  █████  ██████  ██████  
@@ -32,49 +33,49 @@ class _CSMapaCardState extends State<CSMapaCard>{
       width: 300,
       child: Card(
         child: Padding(
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           child: Column(
             children: [
-              Text(_mapa.nome, style: TextStyle(fontSize: 32)),
+              Text(_mapa.nome, style: const TextStyle(fontSize: 32)),
               FutureBuilder(
                 future: _mapa.clima(),
                 builder: (context, snapshot) => !snapshot.hasData
-                ? Expanded(child: const Center(child: CircularProgressIndicator()))
+                ? const Expanded(child: Center(child: CircularProgressIndicator()))
                 : Expanded(
                   child: Stack(
                     alignment: Alignment.center,
                     fit: StackFit.expand,
                     children: [
                       Positioned(top: 13, left: 13, child: Row(children: [
-                        Icon(Icons.thermostat),
-                        Text('${_mapa.agora?.temperatura.toString().replaceAll('.',',') ?? '-'}°', style: TextStyle(fontSize: 20)),
+                        const Icon(Icons.thermostat),
+                        Text('${doubleN2strN(_mapa.agora?.temperatura) ?? 'X'}°', style: const TextStyle(fontSize: 20)),
                       ])),
                       Positioned(top: 13, right: 13, child: Column(
                         children: [
-                          Text('Max: ${_mapa.max?.toString().replaceAll('.',',') ?? '-'}°', style: TextStyle(fontSize: 16)),
-                          Text('Min: ${_mapa.min?.toString().replaceAll('.',',') ?? '-'}°', style: TextStyle(fontSize: 16)),
+                          Text('Max: ${doubleN2strN(_mapa.max) ?? 'X'}°', style: const TextStyle(fontSize: 16)),
+                          Text('Min: ${doubleN2strN(_mapa.min) ?? 'X'}°', style: const TextStyle(fontSize: 16)),
                         ],
                       )),
                       Positioned(bottom: 13, left: 13, child: Row(children: [
-                        Icon(Icons.cloudy_snowing),
-                        Text('${_mapa.agora?.chuva ?? '-'}%', style: TextStyle(fontSize: 20)),
+                        const Icon(Icons.cloudy_snowing),
+                        Text('${_mapa.agora?.chuva ?? 'X'}%', style: const TextStyle(fontSize: 20)),
                       ])),
                       Positioned(bottom: 13, right: 13, child: Row(children: [
-                        Text('${_mapa.agora?.umidade ?? '-'}%', style: TextStyle(fontSize: 20)),
-                        Icon(Icons.water_drop),
+                        Text('${_mapa.agora?.umidade ?? 'X'}%', style: const TextStyle(fontSize: 20)),
+                        const Icon(Icons.water_drop),
                       ])),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           CircleAvatar(radius: 50, backgroundColor: Theme.of(context).colorScheme.surface, child: Image.network(_mapa.agora?.codigo2img() ?? '')),
-                          Text(_mapa.agora?.codigo2txt() ?? '-', style: TextStyle(fontSize: 16)),
+                          Text(_mapa.agora?.codigo2txt() ?? 'X', style: const TextStyle(fontSize: 16)),
                         ],
                       ),
                     ],
                   ),
                 ),
               ),
-              Text('${_mapa.cidade} | ${_mapa.pais}', style: TextStyle(fontSize: 20)),
+              Text('${_mapa.cidade} | ${_mapa.pais}', style: const TextStyle(fontSize: 20)),
             ],
           ),
         ),

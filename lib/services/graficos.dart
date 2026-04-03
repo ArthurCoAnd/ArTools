@@ -7,11 +7,13 @@ class XY {
   final num y;
 }
 
-CartesianSeries<dynamic, dynamic> serieLinhaXY(String nome, Color cor, List<XY> dados, {double wdt = 2}){
-  return LineSeries<XY, num>(
-    name: nome, color: cor,
-    dataSource: dados,
-    width: wdt,
+class LineSeriesXY extends LineSeries<XY, num> {
+  LineSeriesXY({super.key, 
+    required String super.name,
+    required Color super.color,
+    required List<XY> super.dataSource,
+    super.width,
+  }) : super(
     xValueMapper: (XY data, _) => data.x,
     yValueMapper: (XY data, _) => data.y,
   );
@@ -23,19 +25,24 @@ class MesVal {
   final num val;
 }
 
-CartesianSeries<dynamic, dynamic> serieLinhaMesVal(String nome, Color cor, List<MesVal> dados){
-  return LineSeries<MesVal, String>(
-    name: nome, color: cor,
-    dataSource: dados,
+class LineSeriesMesVal extends LineSeries<MesVal, String> {
+  LineSeriesMesVal({super.key,
+    required String super.name,
+    required Color super.color,
+    required List<MesVal> super.dataSource,
+    super.width,
+  }) : super(
     xValueMapper: (MesVal data, _) => data.mes,
     yValueMapper: (MesVal data, _) => data.val,
   );
 }
 
-CartesianSeries<dynamic, dynamic> serieColunaMesVal(String nome, Color cor, List<MesVal> dados){
-  return ColumnSeries<MesVal, String>(
-    name: nome, color: cor,
-    dataSource: dados,
+class ColumnSeriesMesVal extends ColumnSeries<MesVal, String> {
+  ColumnSeriesMesVal({super.key,
+    required String super.name,
+    required Color super.color,
+    required List<MesVal> super.dataSource,
+  }) : super(
     xValueMapper: (MesVal data, _) => data.mes,
     yValueMapper: (MesVal data, _) => data.val,
   );
@@ -47,19 +54,23 @@ class DtVal {
   final num val;
 }
 
-CartesianSeries<dynamic, dynamic> serieLinhaDtVal(String nome, Color cor, List<DtVal> dados){
-  return LineSeries<DtVal, DateTime>(
-    name: nome, color: cor,
-    dataSource: dados,
+class LineSeriesDtVal extends LineSeries<DtVal, DateTime> {
+  LineSeriesDtVal({super.key,
+    required String super.name,
+    required Color super.color,
+    required List<DtVal> super.dataSource,
+  }) : super(
     xValueMapper: (DtVal data, _) => data.dt,
     yValueMapper: (DtVal data, _) => data.val,
   );
 }
 
-CartesianSeries<dynamic, dynamic> serieColunaDtVal(String nome, Color cor, List<DtVal> dados){
-  return ColumnSeries<DtVal, DateTime>(
-    name: nome, color: cor,
-    dataSource: dados,
+class ColumnSeriesDtVal extends ColumnSeries<DtVal, DateTime> {
+  ColumnSeriesDtVal({super.key, 
+    required String super.name,
+    required Color super.color,
+    required List<DtVal> super.dataSource,
+  }) : super(
     xValueMapper: (DtVal data, _) => data.dt,
     yValueMapper: (DtVal data, _) => data.val,
   );

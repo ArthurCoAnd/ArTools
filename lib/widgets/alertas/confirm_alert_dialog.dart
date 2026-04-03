@@ -32,12 +32,20 @@ Future<bool> confirmAlertDialog(
   ) async {
   bool valor = false;
 
-  void cancelar(){valor = false; Navigator.pop(context);}
+  void cancelar() {
+    valor = false;
+    Navigator.pop(context);
+  }
 
-  void confirmar(){valor = true; Navigator.pop(context);}
+  void confirmar() {
+    valor = true;
+    Navigator.pop(context);
+  }
 
-  await showDialog(barrierDismissible: false, context: context, builder: (BuildContext context){
-    return AlertDialog(
+  await showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (BuildContext context) => AlertDialog(
       title: Text(ttl),
       content: txt != '' ? Text(txt) : null,
       actions: [
@@ -52,8 +60,8 @@ Future<bool> confirmAlertDialog(
           label: Text(txtS, style: TextStyle(color: corS)),
         ),
       ],
-    );
-  });
+    ),
+  );
 
   return valor;
 }

@@ -31,8 +31,9 @@ Future<bool> deleteAlertDialog(BuildContext context) async {
     Navigator.pop(context);
   }
 
-  await showDialog(context: context, builder: (BuildContext context){
-    return AlertDialog(
+  await showDialog(
+    context: context,
+    builder: (BuildContext context) => AlertDialog(
       title: const Center(child: Text('Deletar?')),
       actions: [
         TextButton.icon(
@@ -46,8 +47,8 @@ Future<bool> deleteAlertDialog(BuildContext context) async {
           label: const Text('Deletar', style: TextStyle(color: Colors.red)),
         ),
       ],
-    );
-  });
+    ),
+  );
 
   return valor;
 }

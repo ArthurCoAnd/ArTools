@@ -1,14 +1,15 @@
+//  ██████╗███████╗       ██╗    ██████╗ 
+// ██╔════╝██╔════╝      ███║   ██╔════╝ 
+// ██║     ███████╗█████╗╚██║   ███████╗ 
+// ██║     ╚════██║╚════╝ ██║   ██╔═══██╗
+// ╚██████╗███████║       ██║██╗╚██████╔╝
+//  ╚═════╝╚══════╝       ╚═╝╚═╝ ╚═════╝ 
+// Clima-Strike 1.6
+
 import 'package:artools/app/cs16/cs_cores.dart';
 import 'package:artools/app/cs16/cs_mapa.dart';
 import 'package:artools/app/cs16/cs_mapa_card.dart';
-import 'package:artools/widgets/s_padding.dart';
 import 'package:flutter/material.dart';
-
-//  ██████ ███████        ██     ██████  
-// ██      ██            ███    ██       
-// ██      ███████ █████  ██    ███████  
-// ██           ██        ██    ██    ██ 
-//  ██████ ███████        ██ ██  ██████  
 
 class CS16 extends StatefulWidget {
   const CS16({super.key});
@@ -38,33 +39,31 @@ class _CS16State extends State<CS16> {
   // ███████ ██   ██    ██     ██████   ██████     ██    
 
   @override
-  Widget build(BuildContext context) {
-    return Theme(
-      data: ThemeData(
-        useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: CSCores().c1,
-          primary: CSCores().c1,
-          surface: CSCores().c4,
-        ),
-        fontFamily: 'CS',
+  Widget build(BuildContext context) => Theme(
+    data: ThemeData(
+      useMaterial3: true,
+      colorScheme: ColorScheme.fromSeed(
+        seedColor: CSCores().c1,
+        primary: CSCores().c1,
+        surface: CSCores().c4,
       ),
-      child: Scaffold(
-        appBar: AppBar(title: const Text('Clima-Strike 1.6'), centerTitle: true),
-        body: SingleChildScrollView(
-          child: SPadding(
-            fim: true,
-            child: Center(
-              child: Wrap(
-                alignment: WrapAlignment.center,
-                spacing: 16,
-                runSpacing: 16,
-                children: [for(CSMapa mapa in _mapas) CSMapaCard(mapa)],
-              ),
+      fontFamily: 'CS',
+    ),
+    child: Scaffold(
+      appBar: AppBar(title: const Text('Clima-Strike 1.6'), centerTitle: true),
+      body: Center(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(13),
+          child: Center(
+            child: Wrap(
+              alignment: WrapAlignment.center,
+              spacing: 16,
+              runSpacing: 16,
+              children: _mapas.map((e) => CSMapaCard(e)).toList(),
             ),
           ),
         ),
       ),
-    );
-  }
+    ),
+  );
 }

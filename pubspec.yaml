@@ -13,27 +13,28 @@ dependencies:
     sdk: flutter
 
   complex: ^0.8.0
-  csv: ^6.0.0
+  csv: ^8.0.0
   cupertino_icons: ^1.0.6
-  flutter_launcher_icons: ^0.14.1
-  flutter_native_splash: ^2.3.5
-  flutter_typeahead: ^5.2.0
+  firebase_core: ^4.5.0
+  flutter_form_builder: ^10.3.0+2
+  form_builder_extra_fields: ^12.2.0
+  form_builder_validators: ^11.3.0
   geocode: ^1.0.3
-  google_fonts: ^6.2.1
+  google_fonts: ^8.0.2
   http: ^1.2.2
-  intl: ^0.19.0
+  intl: ^0.20.2
   location: ^8.0.0
-  syncfusion_flutter_charts: ^28.2.5+1
-  syncfusion_flutter_datagrid: ^28.2.5
-  syncfusion_flutter_pdf: ^28.2.5
-  syncfusion_localizations: ^28.2.5
-  firebase_core: ^3.12.1
+  statistics: ^1.2.1
+  syncfusion_flutter_charts: ^33.1.44
+  syncfusion_flutter_datagrid: ^33.1.44
+  syncfusion_flutter_pdf: ^33.1.44
+  syncfusion_localizations: ^33.1.44
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  flutter_lints: ^5.0.0
+  flutter_lints: ^6.0.0
 
 flutter:
   uses-material-design: true
@@ -55,25 +56,3 @@ flutter:
       fonts:
         - asset: assets/fonts/CounterStrikeRegular.ttf
           style: normal
-
-# flutter pub run flutter_native_splash:create
-flutter_native_splash:
-  color: "#838383"
-  image: "assets/images/Logo.png"
-  android: true
-  ios: false
-  web: true
-
-# flutter pub run flutter_launcher_icons:main
-flutter_launcher_icons:
-  image_path: "assets/images/Logo.ico"
-  adaptative_icon_background: "#838383"
-  adaptative_icon_foreground: "assets/images/Logo.ico"
-  android: "launcher_icon"
-  ios: false
-  remove_alpha_ios: true
-  web:
-    generate: true
-    image_path: "assets/images/Logo.ico"
-    background_color: "#838383"
-    theme_color: "#838383"

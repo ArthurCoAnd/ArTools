@@ -1,6 +1,14 @@
+//  ██████╗ ██████╗  ██████╗ ██████╗ ██╗      █████╗ ██████╗  ██████╗ ██████╗  █████╗ 
+// ██╔════╝██╔═══██╗██╔════╝██╔═══██╗██║     ██╔══██╗██╔══██╗██╔═══██╗██╔══██╗██╔══██╗
+// ██║     ██║   ██║██║     ██║   ██║██║     ███████║██║  ██║██║   ██║██████╔╝███████║
+// ██║     ██║   ██║██║     ██║   ██║██║     ██╔══██║██║  ██║██║   ██║██╔══██╗██╔══██║
+// ╚██████╗╚██████╔╝╚██████╗╚██████╔╝███████╗██║  ██║██████╔╝╚██████╔╝██║  ██║██║  ██║
+//  ╚═════╝ ╚═════╝  ╚═════╝ ╚═════╝ ╚══════╝╚═╝  ╚═╝╚═════╝  ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝
+
+import 'package:artools/app/cocoladora/cocoladora_formulario.dart';
 import 'package:artools/services/conversores.dart';
-import 'package:artools/widgets/entradas.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Cocoladora extends StatefulWidget{
@@ -12,14 +20,8 @@ class Cocoladora extends StatefulWidget{
 
 class CocoladoraState extends State<Cocoladora>{
 
-  final TextEditingController _salarioTEC = TextEditingController();
-  final TextEditingController _horasTEC = TextEditingController();
-  final TextEditingController _minutosTEC = TextEditingController();
-
-  double? _salario;
-  double? _horas;
-  double? _minutos;
-  double? _dinheiro;
+  final GlobalKey<FormBuilderState> _formBuilderState = GlobalKey<FormBuilderState>();
+  final ValueNotifier<double?> _cocoladora = ValueNotifier(null);
 
   // ██       █████  ██    ██  ██████  ██    ██ ████████ 
   // ██      ██   ██  ██  ██  ██    ██ ██    ██    ██    
@@ -28,40 +30,42 @@ class CocoladoraState extends State<Cocoladora>{
   // ███████ ██   ██    ██     ██████   ██████     ██    
 
   @override
-  Widget build(BuildContext context){
-    return Theme(
-      data: ThemeData(
-        useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.brown,
-          primary: Colors.white,
-          surface: Colors.brown,
-          onSurface: Colors.white
-        ),
-        fontFamily: GoogleFonts.dynaPuff().fontFamily,
+  Widget build(BuildContext context) => Theme(
+    data: ThemeData(
+      useMaterial3: true,
+      colorScheme: ColorScheme.fromSeed(
+        seedColor: Colors.brown,
+        primary: Colors.brown,
+        onPrimary: Colors.brown,
+        surface: Colors.brown,
+        onSurface: Colors.brown,
       ),
-      child: Scaffold(
-        appBar: AppBar(title: const Text('Cocôladora'), centerTitle: true),
-        body: Center(
-          child: SimpleP(
-            p: const [13,13,13,13],
-            child: Card(
-              color: Colors.brown.shade200,
-              child: SingleChildScrollView(
+      fontFamily: GoogleFonts.dynaPuff().fontFamily,
+    ),
+    child: Scaffold(
+      appBar: AppBar(title: const Text('Cocôladora'), centerTitle: true),
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsetsGeometry.all(13),
+          child: Card(
+            color: Colors.brown.shade200,
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(13),
+              child: SizedBox(
+                width: 500,
                 child: Column(
-                  mainAxisSize: MainAxisSize.max,
+                  spacing: 13,
                   children: [
-                    SizedBox(
-                      width: 500,
-                      child: Column(children: [
-                        SimpleP(child: Image.asset('assets/images/logos/Cocoladora.png', height: 131, width: 131)),
-                        const SimpleP(child: Center(child: Text('Cocôladora', style: TextStyle(fontSize: 31)))),
-                        SimpleP(child: SimpleTFF(_salarioTEC, 'Média Salarial Mensal (R\$/mês)', validador: valIsDouble, func: _calcular, centralizado: true, kb: 'num')),
-                        SimpleP(child: SimpleTFF(_horasTEC, 'Carga Horária Semanal (h/semana)', validador: valIsDouble, func: _calcular, centralizado: true, kb: 'num')),
-                        SimpleP(child: SimpleTFF(_minutosTEC, 'Média de Tempo no Troninho (min/💩)', validador: valIsDouble, func: _calcular, centralizado: true, kb: 'num')),
-                        if(_dinheiro != null) SimpleP(child: SelectableText('Sua 💩 lhe rende: R\$${_dinheiro!.toStringAsFixed(2).replaceAll('.',',')}', style: TextStyle(fontSize: 20), textAlign: TextAlign.center)),
-                        const SimpleP(),
-                      ]),
+                    Image.asset('assets/images/logos/Cocoladora.png', height: 131, width: 131),
+                    const Center(child: Text('Cocôladora', style: TextStyle(fontSize: 31))),
+                    CocoladoraFormulario(_formBuilderState, _calcular),
+                    ValueListenableBuilder(
+                      valueListenable: _cocoladora,
+                      builder: (context, value, child) => value == null ? const SizedBox.shrink() : SelectableText(
+                        'Cada 💩 lhe rende:\nR\$${double2strDinheiro(_cocoladora.value!)}',
+                        style: const TextStyle(fontSize: 30),
+                        textAlign: TextAlign.center
+                      ),
                     ),
                   ],
                 ),
@@ -70,16 +74,16 @@ class CocoladoraState extends State<Cocoladora>{
           ),
         ),
       ),
-    );
-  }
+    ),
+  );
 
-  void _calcular(){
-    _salario = str2double(_salarioTEC.text);
-    _horas = str2double(_horasTEC.text);
-    _minutos = str2double(_minutosTEC.text);
-    if(_salario != null && _horas != null && _minutos != null){
-      _dinheiro = _minutos! * _salario! / ( 60 * _horas! * 4);
-    } else { _dinheiro = null; }
-    setState((){});
+  void _calcular() {
+    _cocoladora.value = null;
+    final FormBuilderState? state = _formBuilderState.currentState;
+    if(state == null) return;
+    state.save();
+    final Map<String, dynamic> values = state.value;
+    if(values.containsValue(null)) return;
+    _cocoladora.value = values["M"] * values["S"] / (60 * values["H"] * 4);
   }
 }

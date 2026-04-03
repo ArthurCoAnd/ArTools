@@ -1,43 +1,45 @@
 import 'package:artools/app/menu/menu_botao.dart';
 import 'package:artools/app/menu/menu_item.dart';
-import 'package:artools/widgets/entradas.dart';
 import 'package:flutter/material.dart';
 
-class MENU extends StatefulWidget{
-  const MENU({super.key});
+class Menu extends StatefulWidget{
+  const Menu({super.key});
 
   @override
-  MENUState createState() => MENUState();
+  MenuState createState() => MenuState();
 }
 
-class MENUState extends State<MENU>{
+class MenuState extends State<Menu>{
   final List<MenuItem> _menu = [
     MenuItem('CCCP', subTitulo: 'Conversor de Coordenadas\nCartesianas & Polares', corBase: Colors.red, icone: 'logos/CCCP.png', pg: '/CCCP'),
     MenuItem('EGS', subTitulo: 'Estimador de Geração Solar', corBase: Colors.yellow, icone: 'logos/EGS.png', pg: '/EGS'),
-    MenuItem('CS', subTitulo: 'Clima-Strike', corBase: Color.fromARGB(255,117,127,109), icone: 'logos/CS16.png', pg: '/CS16'),
+    MenuItem('CS', subTitulo: 'Clima-Strike', corBase: const Color.fromARGB(255,117,127,109), icone: 'logos/CS16.png', pg: '/CS16'),
     MenuItem('Cocôladora', subTitulo: 'Sua 💩 em 💸', corBase: Colors.brown, icone: 'logos/Cocoladora.png', pg: '/Cocoladora'),
   ];
 
   @override
-  Widget build(BuildContext context){
-    return Scaffold(
-      body: Container(
-        height: MediaQuery.of(context).size.height, width: MediaQuery.of(context).size.width,
-        decoration: const BoxDecoration(image: DecorationImage(image: AssetImage('assets/images/fundos/MG.jpg'), fit: BoxFit.cover)),
+  Widget build(BuildContext context) => Scaffold(
+    body: Container(
+      height: MediaQuery.of(context).size.height, width: MediaQuery.of(context).size.width,
+      decoration: const BoxDecoration(image: DecorationImage(image: AssetImage('assets/images/fundos/MG.jpg'), fit: BoxFit.cover)),
+      child: Center(
         child: SingleChildScrollView(
-          child: Column(children: [
-            SimpleP(child: Image.asset('assets/images/Logo.png', height: 131, width: 131)),
-            const SimpleP(child: Center(child: Text('ArTools', style: TextStyle(fontSize: 31)))),
-            Wrap(
-              alignment: WrapAlignment.center,
-              spacing: 13,
-              runSpacing: 13,
-              children: [for(MenuItem i in _menu) MenuBotao(i)],
-            ),
-            const SimpleP(),
-          ]),
+          padding: const EdgeInsets.all(13),
+          child: Column(
+            spacing: 13,
+            children: [
+              Image.asset('assets/images/Logo.png', height: 131, width: 131),
+              const Center(child: Text('ArTools', style: TextStyle(fontSize: 31))),
+              Wrap(
+                alignment: WrapAlignment.center,
+                spacing: 13,
+                runSpacing: 13,
+                children: _menu.map((e) => MenuBotao(e)).toList(),
+              ),
+            ],
+          ),
         ),
       ),
-    );
-  }
+    ),
+  );
 }

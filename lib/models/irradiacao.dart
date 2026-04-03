@@ -6,16 +6,16 @@
 
 import 'package:artools/services/graficos.dart';
 
-class IRRAD{
+class Irradiacao{
   final int id;
   final double lat;
   final double lon;
   final String estado;
   final String municipio;
 
-  List<MesVal> irrad = [];
+  List<MesVal> irradiacao = [];
 
-  IRRAD({
+  Irradiacao({
     required this.id,
     required this.lat,
     required this.lon,
@@ -23,13 +23,11 @@ class IRRAD{
     required this.municipio,
   });
 
-  factory IRRAD.fromMap(Map map){
-    return IRRAD(
-      id: int.parse(map['ID']),
-      lat: double.parse(map['LAT']),
-      lon: double.parse(map['LON']),
-      estado: map['EST'].toString().toUpperCase(),
-      municipio: map['MUN'].toString().toUpperCase(),
-    )..irrad = [for(String mes in ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez']) MesVal(mes, int.parse(map[mes]))];
-  }
+  factory Irradiacao.fromMap(Map map) => Irradiacao(
+    id: int.parse(map['ID']),
+    lat: double.parse(map['LATITUDE']),
+    lon: double.parse(map['LONGITUDE']),
+    estado: map['ESTADO'].toString().toUpperCase(),
+    municipio: map['MUNICÍPIO'].toString().toUpperCase(),
+  )..irradiacao = ['JAN','FEV','MAR','ABR','MAI','JUN','JUL','AGO','SET','OUT','NOV','DEZ'].map((mes) => MesVal(mes, int.parse(map[mes]))).toList();
 }
